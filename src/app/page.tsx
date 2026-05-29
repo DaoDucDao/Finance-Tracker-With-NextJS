@@ -3,14 +3,20 @@
 import { useEffect } from "react";
 import { useTransactions } from "@/hooks/useTransactions";
 import { useCategories } from "@/hooks/useCategories";
+import { useBudgets } from "@/hooks/useBudgets";
+import { useGoals } from "@/hooks/useGoals";
 import StatCard from "@/components/dashboard/StatCard";
 import OverviewChart from "@/components/dashboard/OverviewChart";
 import CategoryChart from "@/components/dashboard/CategoryChart";
 import RecentTransactions from "@/components/dashboard/RecentTransactions";
+import BudgetSnapshot from "@/components/dashboard/BudgetSnapshot";
+import GoalsSnapshot from "@/components/dashboard/GoalsSnapshot";
 
 export default function DashboardPage() {
   const { transactions, stats, monthlyData, isLoaded, initSeedData } = useTransactions();
   const { categories, initDefaults } = useCategories();
+  const { isLoaded: budgetsLoaded, initSeedData: initBudgetSeed } = useBudgets();
+  const { isLoaded: goalsLoaded, initSeedData: initGoalSeed } = useGoals();
 
   useEffect(() => {
     if (isLoaded) {
@@ -18,6 +24,14 @@ export default function DashboardPage() {
       initSeedData();
     }
   }, [isLoaded, initDefaults, initSeedData]);
+
+  useEffect(() => {
+    if (budgetsLoaded) initBudgetSeed();
+  }, [budgetsLoaded, initBudgetSeed]);
+
+  useEffect(() => {
+    if (goalsLoaded) initGoalSeed();
+  }, [goalsLoaded, initGoalSeed]);
 
   if (!isLoaded) {
     return (
@@ -74,6 +88,11 @@ export default function DashboardPage() {
           categories={categories}
           type="expense"
         />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <BudgetSnapshot transactions={transactions} categories={categories} />
+        <GoalsSnapshot />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

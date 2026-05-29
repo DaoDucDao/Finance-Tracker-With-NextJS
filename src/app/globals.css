@@ -28,3 +28,125 @@ body {
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
+
+/* ------------------------------------------------------------------ */
+/* Flashy animations                                                   */
+/* ------------------------------------------------------------------ */
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(105vh) rotate(720deg);
+    opacity: 0.9;
+  }
+}
+.animate-confetti-fall {
+  animation-name: confetti-fall;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+
+@keyframes budget-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+  50% {
+    box-shadow: 0 0 22px 2px rgba(239, 68, 68, 0.35);
+  }
+}
+.animate-budget-glow {
+  animation: budget-glow 2.4s ease-in-out infinite;
+}
+
+@keyframes gradient-pan {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+.text-gradient {
+  background: linear-gradient(90deg, #34d399, #22d3ee, #a78bfa, #34d399);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-pan 6s linear infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* Light theme — remaps the dark zinc surfaces without touching every  */
+/* component. Accent (emerald) tones intentionally carry over.         */
+/* ------------------------------------------------------------------ */
+
+html.light {
+  --background: #fafafa;
+  --foreground: #18181b;
+}
+
+html.light .bg-zinc-900 {
+  background-color: #ffffff;
+}
+html.light .bg-zinc-800 {
+  background-color: #f4f4f5;
+}
+html.light .bg-zinc-700 {
+  background-color: #e4e4e7;
+}
+html.light .bg-zinc-600 {
+  background-color: #d4d4d8;
+}
+
+html.light .border-zinc-800 {
+  border-color: #e4e4e7;
+}
+html.light .border-zinc-700 {
+  border-color: #d4d4d8;
+}
+html.light .border-zinc-600 {
+  border-color: #c4c4c8;
+}
+
+html.light .text-white {
+  color: #18181b;
+}
+html.light .text-zinc-200 {
+  color: #27272a;
+}
+html.light .text-zinc-300 {
+  color: #3f3f46;
+}
+html.light .text-zinc-400 {
+  color: #52525b;
+}
+html.light .text-zinc-500 {
+  color: #71717a;
+}
+html.light .text-zinc-600 {
+  color: #a1a1aa;
+}
+
+html.light .hover\:bg-zinc-800:hover {
+  background-color: #ececee;
+}
+html.light .hover\:bg-zinc-700:hover {
+  background-color: #e0e0e3;
+}
+html.light .hover\:bg-zinc-600:hover {
+  background-color: #d4d4d8;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #b4b4b8;
+}
+html.light input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: none;
+}

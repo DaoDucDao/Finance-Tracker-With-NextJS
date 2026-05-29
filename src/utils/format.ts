@@ -20,6 +20,12 @@ export function getMonthKey(dateStr: string): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 }
 
+export function daysUntil(dateStr: string): number {
+  const target = new Date(dateStr).getTime();
+  const now = new Date().getTime();
+  return Math.ceil((target - now) / (1000 * 60 * 60 * 24));
+}
+
 export function getMonthLabel(monthKey: string): string {
   const [year, month] = monthKey.split("-");
   return new Date(Number(year), Number(month) - 1).toLocaleDateString("en-US", {

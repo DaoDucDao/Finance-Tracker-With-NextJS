@@ -25,6 +25,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full`}>
+      <head>
+        <script
+          // Apply the saved theme before first paint to avoid a flash.
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('finance-theme');if(t==='light'){document.documentElement.classList.add('light');document.documentElement.style.colorScheme='light';}}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex">
         <Sidebar />
         <main className="flex-1 ml-64 min-h-screen">{children}</main>
