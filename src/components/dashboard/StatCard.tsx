@@ -12,26 +12,10 @@ interface StatCardProps {
 }
 
 const colorMap = {
-  green: {
-    card: "from-emerald-600/20 to-emerald-600/5 border-emerald-600/30",
-    text: "text-emerald-400",
-    glow: "bg-emerald-500/15 text-emerald-300",
-  },
-  red: {
-    card: "from-red-600/20 to-red-600/5 border-red-600/30",
-    text: "text-red-400",
-    glow: "bg-red-500/15 text-red-300",
-  },
-  blue: {
-    card: "from-blue-600/20 to-blue-600/5 border-blue-600/30",
-    text: "text-blue-400",
-    glow: "bg-blue-500/15 text-blue-300",
-  },
-  purple: {
-    card: "from-purple-600/20 to-purple-600/5 border-purple-600/30",
-    text: "text-purple-400",
-    glow: "bg-purple-500/15 text-purple-300",
-  },
+  green: { icon: "bg-emerald-500/15 text-emerald-500", accent: "bg-emerald-500" },
+  red: { icon: "bg-red-500/15 text-red-500", accent: "bg-red-500" },
+  blue: { icon: "bg-blue-500/15 text-blue-500", accent: "bg-blue-500" },
+  purple: { icon: "bg-violet-500/15 text-violet-500", accent: "bg-violet-500" },
 };
 
 export default function StatCard({
@@ -44,23 +28,29 @@ export default function StatCard({
 }: StatCardProps) {
   const c = colorMap[color];
   const display = format === "percent" ? `${amount}%` : formatCurrency(amount);
-  return (
-    <div
-      className={`group relative overflow-hidden rounded-2xl border bg-gradient-to-br ${c.card} p-5 shadow-lg shadow-black/20 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl`}
-    >
-      {/* subtle sheen on hover */}
-      <div className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-white/5 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" />
 
-      <div className="mb-4 flex items-start justify-between">
-        <span className="text-sm font-medium text-zinc-400">{title}</span>
+  return (
+    <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-border hover:shadow-lg">
+      {/* colored accent strip */}
+      <span
+        className={`absolute inset-x-0 top-0 h-1 ${c.accent} opacity-80`}
+      />
+
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-muted-foreground">{title}</span>
         <span
-          className={`flex h-10 w-10 items-center justify-center rounded-xl text-xl ${c.glow}`}
+          className={`flex h-10 w-10 items-center justify-center rounded-xl text-xl ${c.icon}`}
         >
           {icon}
         </span>
       </div>
-      <p className={`text-3xl font-bold tracking-tight ${c.text}`}>{display}</p>
-      {subtitle && <p className="mt-1.5 text-xs text-zinc-500">{subtitle}</p>}
+
+      <p className="mt-3 text-3xl font-bold tracking-tight text-foreground">
+        {display}
+      </p>
+      {subtitle && (
+        <p className="mt-1 text-xs text-muted-foreground">{subtitle}</p>
+      )}
     </div>
   );
 }

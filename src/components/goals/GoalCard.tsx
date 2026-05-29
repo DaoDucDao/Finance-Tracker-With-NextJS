@@ -52,7 +52,7 @@ export default function GoalCard({
               cy="60"
               r={RADIUS}
               fill="none"
-              stroke="#27272a"
+              stroke="var(--secondary)"
               strokeWidth="10"
             />
             <circle

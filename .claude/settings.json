@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node shot.js \"http://localhost:3001/\" \"$env:TEMP\\\\fintracker-shot\\\\dash2.png\" 2>&1 | Select-Object -Last 10)",
-      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node shot-light.js \"http://localhost:3001/transactions\" \"$env:TEMP\\\\fintracker-shot\\\\light.png\" 2>&1 | Select-Object -Last 6)"
+      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node shot-light.js \"http://localhost:3001/transactions\" \"$env:TEMP\\\\fintracker-shot\\\\light.png\" 2>&1 | Select-Object -Last 6)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node shot-light.js \"http://localhost:3001/\" \"$env:TEMP\\\\fintracker-shot\\\\light2.png\"; node shot.js \"http://localhost:3001/\" \"$env:TEMP\\\\fintracker-shot\\\\dark3.png\" 2>&1 | Select-Object -Last 6)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node hover.js light 2>&1 | Select-Object -Last 6)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node diag.js 2>&1 | Select-Object -Last 25)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node diag.js 2>&1 | Select-Object -Last 8)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node shot-light.js \"http://localhost:3001/\" \"$env:TEMP\\\\fintracker-shot\\\\final-light.png\" 2>&1 | Select-Object -Last 4)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node shot-light.js \"http://localhost:3001/budgets\" \"$env:TEMP\\\\fintracker-shot\\\\budgets.png\"; node shot-light.js \"http://localhost:3001/goals\" \"$env:TEMP\\\\fintracker-shot\\\\goals.png\" 2>&1 | Select-Object -Last 4)"
     ]
   }
 }

@@ -71,10 +71,10 @@ export default function GoalsPage() {
       </div>
 
       {goals.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-zinc-800 py-16 text-center">
+        <div className="rounded-2xl border border-dashed border-border py-16 text-center">
           <p className="text-4xl">🏆</p>
-          <p className="mt-3 text-zinc-400">No goals yet</p>
-          <p className="text-sm text-zinc-600">
+          <p className="mt-3 text-muted-foreground">No goals yet</p>
+          <p className="text-sm text-muted-foreground/70">
             Set a savings goal and watch your progress grow.
           </p>
         </div>

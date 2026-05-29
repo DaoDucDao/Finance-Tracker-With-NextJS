@@ -50,10 +50,13 @@ export default function CategoryChart({ transactions, categories, type }: Catego
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius={60}
-            outerRadius={100}
-            paddingAngle={3}
+            innerRadius={62}
+            outerRadius={98}
+            paddingAngle={2}
+            cornerRadius={6}
             dataKey="value"
+            stroke="var(--card)"
+            strokeWidth={3}
           >
             {data.map((entry, i) => (
               <Cell key={i} fill={entry.color} />
@@ -61,14 +64,18 @@ export default function CategoryChart({ transactions, categories, type }: Catego
           </Pie>
           <Tooltip
             contentStyle={{
-              backgroundColor: "#18181b",
-              border: "1px solid #3f3f46",
+              backgroundColor: "var(--popover)",
+              border: "1px solid var(--border)",
               borderRadius: "12px",
-              color: "#e4e4e7",
+              color: "var(--popover-foreground)",
+              boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
             }}
             formatter={(value) => [`$${Number(value).toFixed(2)}`, "Amount"]}
           />
           <Legend
+            iconType="circle"
+            iconSize={9}
+            wrapperStyle={{ fontSize: "12px", lineHeight: "1.6" }}
             formatter={(value) => (
               <span className="text-xs text-muted-foreground">{value}</span>
             )}

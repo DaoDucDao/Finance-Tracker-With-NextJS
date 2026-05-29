@@ -41,21 +41,44 @@ export default function OverviewChart({ data }: OverviewChartProps) {
         Monthly Overview
       </h3>
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-          <XAxis dataKey="name" tick={{ fill: "#71717a", fontSize: 12 }} />
-          <YAxis tick={{ fill: "#71717a", fontSize: 12 }} />
+        <BarChart data={chartData} barCategoryGap="28%">
+          <CartesianGrid
+            vertical={false}
+            stroke="var(--border)"
+            strokeOpacity={0.6}
+          />
+          <XAxis
+            dataKey="name"
+            axisLine={false}
+            tickLine={false}
+            tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
+            dy={6}
+          />
+          <YAxis
+            axisLine={false}
+            tickLine={false}
+            tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
+            width={48}
+          />
           <Tooltip
+            cursor={{ fill: "var(--muted-foreground)", opacity: 0.08, radius: 8 }}
             contentStyle={{
-              backgroundColor: "#18181b",
-              border: "1px solid #3f3f46",
+              backgroundColor: "var(--popover)",
+              border: "1px solid var(--border)",
               borderRadius: "12px",
-              color: "#e4e4e7",
+              color: "var(--popover-foreground)",
+              boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
             }}
           />
-          <Legend />
-          <Bar dataKey="income" fill="#22c55e" radius={[6, 6, 0, 0]} name="Income" maxBarSize={28} />
-          <Bar dataKey="expense" fill="#ef4444" radius={[6, 6, 0, 0]} name="Expense" maxBarSize={28} />
+          <Legend
+            iconType="circle"
+            iconSize={9}
+            formatter={(value) => (
+              <span className="text-xs text-muted-foreground">{value}</span>
+            )}
+          />
+          <Bar dataKey="income" fill="#10b981" radius={[6, 6, 0, 0]} name="Income" maxBarSize={36} />
+          <Bar dataKey="expense" fill="#f43f5e" radius={[6, 6, 0, 0]} name="Expense" maxBarSize={36} />
         </BarChart>
       </ResponsiveContainer>
     </Card>

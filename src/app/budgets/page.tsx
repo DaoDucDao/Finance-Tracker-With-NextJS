@@ -87,15 +87,16 @@ export default function BudgetsPage() {
       </div>
 
       {/* Overall summary banner */}
-      <div className="relative overflow-hidden rounded-2xl border border-zinc-800 bg-gradient-to-br from-zinc-900 to-zinc-900/40 p-6">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-transparent" />
+        <div className="relative flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-wide text-zinc-500">
+            <p className="text-xs uppercase tracking-wide text-muted-foreground">
               Spent this month
             </p>
-            <p className="mt-1 text-3xl font-bold text-white">
+            <p className="mt-1 text-3xl font-bold text-foreground">
               {formatCurrency(totals.spent)}
-              <span className="text-base font-normal text-zinc-500">
+              <span className="text-base font-normal text-muted-foreground">
                 {" "}
                 / {formatCurrency(totals.limit)}
               </span>
@@ -103,7 +104,7 @@ export default function BudgetsPage() {
           </div>
           <p
             className={`text-sm font-medium ${
-              totals.remaining < 0 ? "text-red-400" : "text-emerald-400"
+              totals.remaining < 0 ? "text-red-500" : "text-emerald-500"
             }`}
           >
             {totals.remaining < 0
@@ -111,7 +112,7 @@ export default function BudgetsPage() {
               : `${formatCurrency(totals.remaining)} left to spend`}
           </p>
         </div>
-        <div className="mt-4 h-3 w-full overflow-hidden rounded-full bg-zinc-800">
+        <div className="relative mt-4 h-3 w-full overflow-hidden rounded-full bg-secondary">
           <div
             className={`h-full rounded-full bg-gradient-to-r transition-all duration-700 ${
               totalPct > 100
@@ -126,10 +127,10 @@ export default function BudgetsPage() {
       </div>
 
       {budgets.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-zinc-800 py-16 text-center">
+        <div className="rounded-2xl border border-dashed border-border py-16 text-center">
           <p className="text-4xl">🎯</p>
-          <p className="mt-3 text-zinc-400">No budgets yet</p>
-          <p className="text-sm text-zinc-600">
+          <p className="mt-3 text-muted-foreground">No budgets yet</p>
+          <p className="text-sm text-muted-foreground/70">
             Add a budget to start tracking your spending limits.
           </p>
         </div>
