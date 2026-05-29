@@ -2,6 +2,10 @@
 
 import { useState, useEffect } from "react";
 import type { Transaction, TransactionType, Category } from "@/types";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 interface TransactionFormProps {
   categories: Category[];
@@ -56,24 +60,21 @@ export default function TransactionForm({
     });
   };
 
-  const inputClass =
-    "w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-zinc-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all";
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Type toggle */}
-      <div className="flex gap-2">
+      <div className="grid grid-cols-2 gap-2 rounded-xl bg-secondary/50 p-1">
         {(["expense", "income"] as TransactionType[]).map((t) => (
           <button
             key={t}
             type="button"
             onClick={() => setType(t)}
-            className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${
+            className={`rounded-lg py-2 text-sm font-medium transition-all ${
               type === t
                 ? t === "income"
-                  ? "bg-emerald-600 text-white"
-                  : "bg-red-600 text-white"
-                : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
+                  ? "bg-emerald-600 text-white shadow-sm"
+                  : "bg-red-600 text-white shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             {t === "income" ? "Income" : "Expense"}
@@ -83,26 +84,26 @@ export default function TransactionForm({
 
       {/* Amount */}
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">Amount ($)</label>
-        <input
+        <Label>Amount ($)</Label>
+        <Input
           type="number"
           step="0.01"
           min="0"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           placeholder="0.00"
-          className={inputClass}
         />
-        {errors.amount && <p className="text-xs text-red-400 mt-1">{errors.amount}</p>}
+        {errors.amount && (
+          <p className="mt-1 text-xs text-destructive">{errors.amount}</p>
+        )}
       </div>
 
       {/* Category */}
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">Category</label>
-        <select
+        <Label>Category</Label>
+        <Select
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
-          className={inputClass}
         >
           <option value="">Select category</option>
           {filteredCategories.map((c) => (
@@ -110,54 +111,47 @@ export default function TransactionForm({
               {c.icon} {c.name}
             </option>
           ))}
-        </select>
+        </Select>
         {errors.categoryId && (
-          <p className="text-xs text-red-400 mt-1">{errors.categoryId}</p>
+          <p className="mt-1 text-xs text-destructive">{errors.categoryId}</p>
         )}
       </div>
 
       {/* Description */}
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">Description</label>
-        <input
+        <Label>Description</Label>
+        <Input
           type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="What was this for?"
-          className={inputClass}
         />
         {errors.description && (
-          <p className="text-xs text-red-400 mt-1">{errors.description}</p>
+          <p className="mt-1 text-xs text-destructive">{errors.description}</p>
         )}
       </div>
 
       {/* Date */}
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">Date</label>
-        <input
+        <Label>Date</Label>
+        <Input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className={inputClass}
         />
-        {errors.date && <p className="text-xs text-red-400 mt-1">{errors.date}</p>}
+        {errors.date && (
+          <p className="mt-1 text-xs text-destructive">{errors.date}</p>
+        )}
       </div>
 
       {/* Actions */}
       <div className="flex justify-end gap-3 pt-2">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="px-4 py-2.5 rounded-xl bg-zinc-700 text-zinc-300 text-sm hover:bg-zinc-600 transition-colors"
-        >
+        <Button variant="secondary" onClick={onCancel}>
           Cancel
-        </button>
-        <button
-          type="submit"
-          className="px-6 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors"
-        >
+        </Button>
+        <Button type="submit">
           {initialData ? "Update" : "Add"} Transaction
-        </button>
+        </Button>
       </div>
     </form>
   );

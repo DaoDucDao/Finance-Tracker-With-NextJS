@@ -8,6 +8,7 @@ import BudgetCard from "@/components/budgets/BudgetCard";
 import BudgetForm from "@/components/budgets/BudgetForm";
 import Modal from "@/components/ui/Modal";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import { Button } from "@/components/ui/button";
 import { formatCurrency, getMonthKey, getMonthLabel } from "@/utils/format";
 import type { Budget } from "@/types";
 
@@ -75,15 +76,14 @@ export default function BudgetsPage() {
             Monthly spending limits · {getMonthLabel(currentMonth)}
           </p>
         </div>
-        <button
+        <Button
           onClick={() => {
             setEditing(undefined);
             setShowForm(true);
           }}
-          className="px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors"
         >
           + Add Budget
-        </button>
+        </Button>
       </div>
 
       {/* Overall summary banner */}

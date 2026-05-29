@@ -2,6 +2,7 @@
 
 import type { Budget, Category } from "@/types";
 import { formatCurrency } from "@/utils/format";
+import { Button } from "@/components/ui/button";
 
 interface BudgetCardProps {
   budget: Budget;
@@ -56,18 +57,22 @@ export default function BudgetCard({
           </div>
         </div>
         <div className="flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => onEdit(budget)}
-            className="rounded-lg px-2 py-1 text-xs text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
+            className="text-muted-foreground hover:text-foreground"
           >
             Edit
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => onDelete(budget.id)}
-            className="rounded-lg px-2 py-1 text-xs text-red-400 hover:bg-red-600/10"
+            className="text-red-400 hover:bg-red-600/10 hover:text-red-400"
           >
             Delete
-          </button>
+          </Button>
         </div>
       </div>
 

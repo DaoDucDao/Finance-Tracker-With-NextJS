@@ -3,6 +3,9 @@
 import { useState } from "react";
 import type { SavingsGoal } from "@/types";
 import { formatCurrency } from "@/utils/format";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface ContributeFormProps {
   goal: SavingsGoal;
@@ -32,22 +35,19 @@ export default function ContributeForm({
     onSubmit(num);
   };
 
-  const inputClass =
-    "w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-zinc-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all";
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="rounded-xl bg-zinc-800 p-4 text-center">
+      <div className="rounded-xl bg-secondary/50 p-4 text-center">
         <span className="text-2xl">{goal.icon}</span>
-        <p className="mt-1 text-sm font-medium text-zinc-200">{goal.name}</p>
-        <p className="text-xs text-zinc-500">
+        <p className="mt-1 text-sm font-medium text-foreground">{goal.name}</p>
+        <p className="text-xs text-muted-foreground">
           {formatCurrency(remaining)} left to reach goal
         </p>
       </div>
 
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">Amount to add</label>
-        <input
+        <Label>Amount to add</Label>
+        <Input
           type="number"
           step="0.01"
           min="0"
@@ -58,47 +58,38 @@ export default function ContributeForm({
             setError("");
           }}
           placeholder="0.00"
-          className={inputClass}
         />
-        {error && <p className="text-xs text-red-400 mt-1">{error}</p>}
+        {error && <p className="mt-1 text-xs text-destructive">{error}</p>}
       </div>
 
       <div className="flex flex-wrap gap-2">
         {QUICK_AMOUNTS.map((q) => (
-          <button
+          <Button
             key={q}
-            type="button"
+            variant="secondary"
+            size="sm"
             onClick={() => setAmount(q.toString())}
-            className="rounded-lg bg-zinc-800 px-3 py-1.5 text-sm text-zinc-300 hover:bg-zinc-700 transition-colors"
           >
             +{formatCurrency(q)}
-          </button>
+          </Button>
         ))}
         {remaining > 0 && (
-          <button
-            type="button"
+          <Button
+            size="sm"
+            variant="ghost"
             onClick={() => setAmount(remaining.toString())}
-            className="rounded-lg bg-emerald-600/20 px-3 py-1.5 text-sm text-emerald-400 hover:bg-emerald-600/30 transition-colors"
+            className="bg-primary/15 text-primary hover:bg-primary/25"
           >
             Fill it up
-          </button>
+          </Button>
         )}
       </div>
 
       <div className="flex justify-end gap-3 pt-2">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="px-4 py-2.5 rounded-xl bg-zinc-700 text-zinc-300 text-sm hover:bg-zinc-600 transition-colors"
-        >
+        <Button variant="secondary" onClick={onCancel}>
           Cancel
-        </button>
-        <button
-          type="submit"
-          className="px-6 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors"
-        >
-          Add funds
-        </button>
+        </Button>
+        <Button type="submit">Add funds</Button>
       </div>
     </form>
   );

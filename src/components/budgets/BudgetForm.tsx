@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import type { Budget, Category } from "@/types";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 interface BudgetFormProps {
   categories: Category[];
@@ -44,17 +48,13 @@ export default function BudgetForm({
     onSubmit({ categoryId, amount: parseFloat(amount) });
   };
 
-  const inputClass =
-    "w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-zinc-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all";
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">Category</label>
-        <select
+        <Label>Category</Label>
+        <Select
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
-          className={inputClass}
         >
           {available.length === 0 && <option value="">No categories left</option>}
           {available.map((c) => (
@@ -62,42 +62,32 @@ export default function BudgetForm({
               {c.icon} {c.name}
             </option>
           ))}
-        </select>
+        </Select>
         {errors.categoryId && (
-          <p className="text-xs text-red-400 mt-1">{errors.categoryId}</p>
+          <p className="mt-1 text-xs text-destructive">{errors.categoryId}</p>
         )}
       </div>
 
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">
-          Monthly limit
-        </label>
-        <input
+        <Label>Monthly limit</Label>
+        <Input
           type="number"
           step="0.01"
           min="0"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           placeholder="0.00"
-          className={inputClass}
         />
-        {errors.amount && <p className="text-xs text-red-400 mt-1">{errors.amount}</p>}
+        {errors.amount && (
+          <p className="mt-1 text-xs text-destructive">{errors.amount}</p>
+        )}
       </div>
 
       <div className="flex justify-end gap-3 pt-2">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="px-4 py-2.5 rounded-xl bg-zinc-700 text-zinc-300 text-sm hover:bg-zinc-600 transition-colors"
-        >
+        <Button variant="secondary" onClick={onCancel}>
           Cancel
-        </button>
-        <button
-          type="submit"
-          className="px-6 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors"
-        >
-          {initialData ? "Update" : "Add"} Budget
-        </button>
+        </Button>
+        <Button type="submit">{initialData ? "Update" : "Add"} Budget</Button>
       </div>
     </form>
   );

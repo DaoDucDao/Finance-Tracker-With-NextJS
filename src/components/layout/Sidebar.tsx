@@ -18,40 +18,52 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col z-40">
-      <div className="px-6 py-6 border-b border-zinc-800">
-        <h1 className="text-xl font-bold">
-          💵 <span className="text-gradient">FinTracker</span>
-        </h1>
-        <p className="text-xs text-zinc-500 mt-1">Personal Finance Manager</p>
+    <aside className="glass fixed left-0 top-0 z-40 flex h-full w-64 flex-col border-r border-zinc-800/80">
+      <div className="px-6 py-6">
+        <div className="flex items-center gap-3">
+          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-xl shadow-lg shadow-emerald-900/40">
+            💵
+          </span>
+          <div>
+            <h1 className="text-lg font-bold leading-tight">
+              <span className="text-gradient">FinTracker</span>
+            </h1>
+            <p className="text-[11px] text-zinc-500">Personal Finance Manager</p>
+          </div>
+        </div>
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-1">
+      <nav className="flex-1 space-y-1 px-3 py-2">
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href;
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+              className={`group relative flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all ${
                 isActive
-                  ? "bg-emerald-600/20 text-emerald-400"
-                  : "text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
+                  ? "bg-gradient-to-r from-emerald-600/25 to-emerald-600/5 text-emerald-300 shadow-sm shadow-emerald-900/30 ring-1 ring-emerald-500/20"
+                  : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-100"
               }`}
             >
-              <span className="text-lg">{item.icon}</span>
+              {isActive && (
+                <span className="absolute left-0 top-1/2 h-6 -translate-y-1/2 rounded-r-full bg-emerald-400 w-1 shadow-[0_0_8px_rgba(52,211,153,0.7)]" />
+              )}
+              <span className="text-lg transition-transform group-hover:scale-110">
+                {item.icon}
+              </span>
               {item.label}
             </Link>
           );
         })}
       </nav>
 
-      <div className="px-4 py-4 border-t border-zinc-800 space-y-3">
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-zinc-500">Theme</span>
+      <div className="space-y-3 border-t border-zinc-800/80 px-4 py-4">
+        <div className="flex items-center justify-between rounded-xl bg-zinc-800/40 px-3 py-2">
+          <span className="text-xs text-zinc-400">Theme</span>
           <ThemeToggle />
         </div>
-        <p className="text-xs text-zinc-600 text-center">
+        <p className="text-center text-[11px] text-zinc-600">
           Data stored in localStorage
         </p>
       </div>

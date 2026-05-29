@@ -8,6 +8,7 @@ import ContributeForm from "@/components/goals/ContributeForm";
 import Modal from "@/components/ui/Modal";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import Confetti from "@/components/ui/Confetti";
+import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/utils/format";
 import type { SavingsGoal } from "@/types";
 
@@ -59,15 +60,14 @@ export default function GoalsPage() {
             {formatCurrency(summary.saved)} saved
           </p>
         </div>
-        <button
+        <Button
           onClick={() => {
             setEditing(undefined);
             setShowForm(true);
           }}
-          className="px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors"
         >
           + New Goal
-        </button>
+        </Button>
       </div>
 
       {goals.length === 0 ? (

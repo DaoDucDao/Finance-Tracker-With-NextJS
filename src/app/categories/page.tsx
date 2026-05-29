@@ -6,6 +6,7 @@ import CategoryList from "@/components/categories/CategoryList";
 import CategoryForm from "@/components/categories/CategoryForm";
 import Modal from "@/components/ui/Modal";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import { Button } from "@/components/ui/button";
 import type { Category } from "@/types";
 
 export default function CategoriesPage() {
@@ -23,15 +24,14 @@ export default function CategoriesPage() {
             Organize your transactions by category
           </p>
         </div>
-        <button
+        <Button
           onClick={() => {
             setEditing(undefined);
             setShowForm(true);
           }}
-          className="px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors"
         >
           + Add Category
-        </button>
+        </Button>
       </div>
 
       <CategoryList

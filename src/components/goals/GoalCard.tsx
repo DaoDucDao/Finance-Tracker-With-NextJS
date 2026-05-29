@@ -2,6 +2,7 @@
 
 import type { SavingsGoal } from "@/types";
 import { daysUntil, formatCurrency, formatDate } from "@/utils/format";
+import { Button } from "@/components/ui/button";
 
 interface GoalCardProps {
   goal: SavingsGoal;
@@ -99,25 +100,24 @@ export default function GoalCard({
       </div>
 
       <div className="mt-5 flex gap-2">
-        <button
+        <Button
           onClick={() => onContribute(goal)}
           disabled={complete}
-          className="flex-1 rounded-xl bg-emerald-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-800 disabled:text-zinc-500"
+          className="flex-1"
         >
           + Add funds
-        </button>
-        <button
-          onClick={() => onEdit(goal)}
-          className="rounded-xl bg-zinc-800 px-3 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-700"
-        >
+        </Button>
+        <Button variant="secondary" onClick={() => onEdit(goal)}>
           Edit
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="secondary"
+          size="icon"
           onClick={() => onDelete(goal.id)}
-          className="rounded-xl bg-zinc-800 px-3 py-2 text-sm text-red-400 transition-colors hover:bg-red-600/10"
+          className="text-red-400 hover:bg-red-600/10 hover:text-red-400"
         >
           ✕
-        </button>
+        </Button>
       </div>
     </div>
   );

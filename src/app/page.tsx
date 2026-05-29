@@ -15,8 +15,8 @@ import GoalsSnapshot from "@/components/dashboard/GoalsSnapshot";
 export default function DashboardPage() {
   const { transactions, stats, monthlyData, isLoaded, initSeedData } = useTransactions();
   const { categories, initDefaults } = useCategories();
-  const { isLoaded: budgetsLoaded, initSeedData: initBudgetSeed } = useBudgets();
-  const { isLoaded: goalsLoaded, initSeedData: initGoalSeed } = useGoals();
+  const { budgets, isLoaded: budgetsLoaded, initSeedData: initBudgetSeed } = useBudgets();
+  const { goals, isLoaded: goalsLoaded, initSeedData: initGoalSeed } = useGoals();
 
   useEffect(() => {
     if (isLoaded) {
@@ -77,7 +77,8 @@ export default function DashboardPage() {
           }
           icon="🎯"
           color="purple"
-          subtitle="% of income saved"
+          format="percent"
+          subtitle="of income saved"
         />
       </div>
 
@@ -91,8 +92,12 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <BudgetSnapshot transactions={transactions} categories={categories} />
-        <GoalsSnapshot />
+        <BudgetSnapshot
+          transactions={transactions}
+          categories={categories}
+          budgets={budgets}
+        />
+        <GoalsSnapshot goals={goals} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

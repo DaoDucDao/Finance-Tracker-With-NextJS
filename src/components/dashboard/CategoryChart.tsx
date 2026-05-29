@@ -2,6 +2,7 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import type { Transaction, Category } from "@/types";
+import { Card } from "@/components/ui/card";
 
 interface CategoryChartProps {
   transactions: Transaction[];
@@ -33,16 +34,16 @@ export default function CategoryChart({ transactions, categories, type }: Catego
 
   if (data.length === 0) {
     return (
-      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
-        <h3 className="text-sm font-medium text-zinc-400 mb-4">{title}</h3>
-        <p className="text-zinc-500 text-center py-12">No data yet</p>
-      </div>
+      <Card className="p-6">
+        <h3 className="mb-4 text-sm font-semibold text-foreground">{title}</h3>
+        <p className="py-12 text-center text-muted-foreground">No data yet</p>
+      </Card>
     );
   }
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
-      <h3 className="text-sm font-medium text-zinc-400 mb-4">{title}</h3>
+    <Card className="p-6">
+      <h3 className="mb-4 text-sm font-semibold text-foreground">{title}</h3>
       <ResponsiveContainer width="100%" height={280}>
         <PieChart>
           <Pie
@@ -68,10 +69,12 @@ export default function CategoryChart({ transactions, categories, type }: Catego
             formatter={(value) => [`$${Number(value).toFixed(2)}`, "Amount"]}
           />
           <Legend
-            formatter={(value) => <span className="text-zinc-300 text-xs">{value}</span>}
+            formatter={(value) => (
+              <span className="text-xs text-muted-foreground">{value}</span>
+            )}
           />
         </PieChart>
       </ResponsiveContainer>
-    </div>
+    </Card>
   );
 }

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node shot.js \"http://localhost:3001/\" \"$env:TEMP\\\\fintracker-shot\\\\dash2.png\" 2>&1 | Select-Object -Last 10)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node shot-light.js \"http://localhost:3001/transactions\" \"$env:TEMP\\\\fintracker-shot\\\\light.png\" 2>&1 | Select-Object -Last 6)"
+    ]
+  }
+}

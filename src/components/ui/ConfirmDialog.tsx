@@ -1,6 +1,7 @@
 "use client";
 
 import Modal from "./Modal";
+import { Button } from "@/components/ui/button";
 
 interface ConfirmDialogProps {
   isOpen: boolean;
@@ -19,23 +20,20 @@ export default function ConfirmDialog({
 }: ConfirmDialogProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
-      <p className="text-zinc-300 mb-6">{message}</p>
+      <p className="mb-6 text-muted-foreground">{message}</p>
       <div className="flex justify-end gap-3">
-        <button
-          onClick={onClose}
-          className="px-4 py-2 rounded-lg bg-zinc-700 text-zinc-300 hover:bg-zinc-600 transition-colors"
-        >
+        <Button variant="secondary" onClick={onClose}>
           Cancel
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="destructive"
           onClick={() => {
             onConfirm();
             onClose();
           }}
-          className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-500 transition-colors"
         >
           Delete
-        </button>
+        </Button>
       </div>
     </Modal>
   );

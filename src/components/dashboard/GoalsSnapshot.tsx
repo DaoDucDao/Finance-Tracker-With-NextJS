@@ -1,11 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useGoals } from "@/hooks/useGoals";
+import type { SavingsGoal } from "@/types";
 import { formatCurrency } from "@/utils/format";
+import { Card } from "@/components/ui/card";
 
-export default function GoalsSnapshot() {
-  const { goals } = useGoals();
+interface GoalsSnapshotProps {
+  goals: SavingsGoal[];
+}
+
+export default function GoalsSnapshot({ goals }: GoalsSnapshotProps) {
   const top = [...goals]
     .map((g) => ({
       ...g,
@@ -18,10 +22,13 @@ export default function GoalsSnapshot() {
     .slice(0, 4);
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+    <Card className="p-6">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-sm font-medium text-zinc-400">Savings goals</h3>
-        <Link href="/goals" className="text-xs text-emerald-400 hover:text-emerald-300">
+        <h3 className="text-sm font-semibold text-foreground">Savings goals</h3>
+        <Link
+          href="/goals"
+          className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-medium text-emerald-400 transition-colors hover:bg-emerald-500/10 hover:text-emerald-300"
+        >
           View all →
         </Link>
       </div>
@@ -54,6 +61,6 @@ export default function GoalsSnapshot() {
           ))}
         </div>
       )}
-    </div>
+    </Card>
   );
 }

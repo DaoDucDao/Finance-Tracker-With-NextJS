@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import type { MonthlyStats } from "@/types";
 import { formatCurrency, getMonthLabel } from "@/utils/format";
+import { Card } from "@/components/ui/card";
 
 interface MonthlyReportProps {
   data: MonthlyStats[];
@@ -24,18 +25,18 @@ export default function MonthlyReport({ data }: MonthlyReportProps) {
 
   if (chartData.length === 0) {
     return (
-      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
-        <h3 className="text-sm font-medium text-zinc-400 mb-4">Balance Trend</h3>
-        <p className="text-zinc-500 text-center py-12">No data yet</p>
-      </div>
+      <Card className="p-6">
+        <h3 className="mb-4 text-sm font-semibold text-foreground">Balance Trend</h3>
+        <p className="py-12 text-center text-muted-foreground">No data yet</p>
+      </Card>
     );
   }
 
   return (
     <div className="space-y-6">
       {/* Balance trend chart */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
-        <h3 className="text-sm font-medium text-zinc-400 mb-4">Balance Trend</h3>
+      <Card className="p-6">
+        <h3 className="mb-4 text-sm font-semibold text-foreground">Balance Trend</h3>
         <ResponsiveContainer width="100%" height={300}>
           <AreaChart data={chartData}>
             <defs>
@@ -64,26 +65,26 @@ export default function MonthlyReport({ data }: MonthlyReportProps) {
             />
           </AreaChart>
         </ResponsiveContainer>
-      </div>
+      </Card>
 
       {/* Monthly table */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-zinc-800">
-          <h3 className="text-sm font-medium text-zinc-400">Monthly Breakdown</h3>
+      <Card className="overflow-hidden">
+        <div className="border-b border-border px-6 py-4">
+          <h3 className="text-sm font-semibold text-foreground">Monthly Breakdown</h3>
         </div>
         <table className="w-full">
           <thead>
-            <tr className="border-b border-zinc-800">
-              <th className="text-left text-xs text-zinc-500 font-medium px-6 py-3">
+            <tr className="border-b border-border">
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">
                 Month
               </th>
-              <th className="text-right text-xs text-zinc-500 font-medium px-6 py-3">
+              <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">
                 Income
               </th>
-              <th className="text-right text-xs text-zinc-500 font-medium px-6 py-3">
+              <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">
                 Expense
               </th>
-              <th className="text-right text-xs text-zinc-500 font-medium px-6 py-3">
+              <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">
                 Balance
               </th>
             </tr>
@@ -92,9 +93,9 @@ export default function MonthlyReport({ data }: MonthlyReportProps) {
             {[...data].reverse().map((row) => (
               <tr
                 key={row.month}
-                className="border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-colors"
+                className="border-b border-border/50 transition-colors hover:bg-secondary/40"
               >
-                <td className="px-6 py-3 text-sm text-zinc-300">
+                <td className="px-6 py-3 text-sm text-foreground">
                   {getMonthLabel(row.month)}
                 </td>
                 <td className="px-6 py-3 text-sm text-emerald-400 text-right">
@@ -114,7 +115,7 @@ export default function MonthlyReport({ data }: MonthlyReportProps) {
             ))}
           </tbody>
         </table>
-      </div>
+      </Card>
     </div>
   );
 }

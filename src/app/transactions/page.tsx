@@ -8,6 +8,7 @@ import TransactionFilters from "@/components/transactions/TransactionFilters";
 import TransactionForm from "@/components/transactions/TransactionForm";
 import Modal from "@/components/ui/Modal";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import { Button } from "@/components/ui/button";
 import { exportToCSV } from "@/utils/csv";
 import { getMonthKey, getMonthLabel } from "@/utils/format";
 import type { Transaction, TransactionType } from "@/types";
@@ -60,21 +61,20 @@ export default function TransactionsPage() {
           </p>
         </div>
         <div className="flex gap-3">
-          <button
+          <Button
+            variant="outline"
             onClick={() => exportToCSV(filtered, categories)}
-            className="px-4 py-2.5 rounded-xl bg-zinc-800 text-zinc-300 text-sm hover:bg-zinc-700 transition-colors border border-zinc-700"
           >
             Export CSV
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => {
               setEditing(undefined);
               setShowForm(true);
             }}
-            className="px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors"
           >
             + Add Transaction
-          </button>
+          </Button>
         </div>
       </div>
 

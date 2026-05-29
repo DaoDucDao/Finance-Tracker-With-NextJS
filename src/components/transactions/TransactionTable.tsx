@@ -2,6 +2,8 @@
 
 import type { Transaction, Category } from "@/types";
 import { formatCurrency, formatDate } from "@/utils/format";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 interface TransactionTableProps {
   transactions: Transaction[];
@@ -24,18 +26,18 @@ export default function TransactionTable({
 
   if (sorted.length === 0) {
     return (
-      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-12 text-center">
-        <p className="text-zinc-500">No transactions found</p>
-      </div>
+      <Card className="p-12 text-center">
+        <p className="text-muted-foreground">No transactions found</p>
+      </Card>
     );
   }
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
+    <Card className="overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-zinc-800">
+            <tr className="border-b border-border">
               <th className="text-left text-xs text-zinc-500 font-medium px-5 py-3">
                 Date
               </th>
@@ -59,12 +61,12 @@ export default function TransactionTable({
               return (
                 <tr
                   key={t.id}
-                  className="border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-colors"
+                  className="border-b border-border/50 transition-colors hover:bg-secondary/40"
                 >
-                  <td className="px-5 py-3 text-sm text-zinc-400 whitespace-nowrap">
+                  <td className="px-5 py-3 text-sm text-muted-foreground whitespace-nowrap">
                     {formatDate(t.date)}
                   </td>
-                  <td className="px-5 py-3 text-sm text-zinc-200">{t.description}</td>
+                  <td className="px-5 py-3 text-sm text-foreground">{t.description}</td>
                   <td className="px-5 py-3">
                     <span
                       className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg"
@@ -85,18 +87,22 @@ export default function TransactionTable({
                     {formatCurrency(t.amount)}
                   </td>
                   <td className="px-5 py-3 text-right whitespace-nowrap">
-                    <button
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       onClick={() => onEdit(t)}
-                      className="text-xs text-zinc-400 hover:text-emerald-400 transition-colors mr-3"
+                      className="text-muted-foreground hover:text-emerald-400"
                     >
                       Edit
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       onClick={() => onDelete(t.id)}
-                      className="text-xs text-zinc-400 hover:text-red-400 transition-colors"
+                      className="text-muted-foreground hover:text-red-400"
                     >
                       Delete
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               );
@@ -105,9 +111,9 @@ export default function TransactionTable({
         </table>
       </div>
 
-      <div className="px-5 py-3 border-t border-zinc-800 text-xs text-zinc-500">
+      <div className="border-t border-border px-5 py-3 text-xs text-muted-foreground">
         {sorted.length} transaction{sorted.length !== 1 ? "s" : ""}
       </div>
-    </div>
+    </Card>
   );
 }

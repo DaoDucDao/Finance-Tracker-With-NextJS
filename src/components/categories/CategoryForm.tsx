@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import type { Category, TransactionType } from "@/types";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface CategoryFormProps {
   initialData?: Category;
@@ -39,24 +42,21 @@ export default function CategoryForm({ initialData, onSubmit, onCancel }: Catego
     onSubmit({ name: name.trim(), type, color, icon });
   };
 
-  const inputClass =
-    "w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-zinc-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all";
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Type */}
-      <div className="flex gap-2">
+      <div className="grid grid-cols-2 gap-2 rounded-xl bg-secondary/50 p-1">
         {(["expense", "income"] as TransactionType[]).map((t) => (
           <button
             key={t}
             type="button"
             onClick={() => setType(t)}
-            className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${
+            className={`rounded-lg py-2 text-sm font-medium transition-all ${
               type === t
                 ? t === "income"
-                  ? "bg-emerald-600 text-white"
-                  : "bg-red-600 text-white"
-                : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
+                  ? "bg-emerald-600 text-white shadow-sm"
+                  : "bg-red-600 text-white shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             {t === "income" ? "Income" : "Expense"}
@@ -66,20 +66,21 @@ export default function CategoryForm({ initialData, onSubmit, onCancel }: Catego
 
       {/* Name */}
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">Name</label>
-        <input
+        <Label>Name</Label>
+        <Input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Category name"
-          className={inputClass}
         />
-        {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name}</p>}
+        {errors.name && (
+          <p className="mt-1 text-xs text-destructive">{errors.name}</p>
+        )}
       </div>
 
       {/* Icon */}
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">Icon</label>
+        <Label>Icon</Label>
         <div className="flex flex-wrap gap-2">
           {PRESET_ICONS.map((i) => (
             <button
@@ -100,7 +101,7 @@ export default function CategoryForm({ initialData, onSubmit, onCancel }: Catego
 
       {/* Color */}
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">Color</label>
+        <Label>Color</Label>
         <div className="flex flex-wrap gap-2">
           {PRESET_COLORS.map((c) => (
             <button
@@ -117,35 +118,31 @@ export default function CategoryForm({ initialData, onSubmit, onCancel }: Catego
       </div>
 
       {/* Preview */}
-      <div className="bg-zinc-800 rounded-xl p-4 flex items-center gap-3">
+      <div className="flex items-center gap-3 rounded-xl bg-secondary/50 p-4">
         <span
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-lg"
+          className="flex h-10 w-10 items-center justify-center rounded-xl text-lg"
           style={{ backgroundColor: color + "20" }}
         >
           {icon}
         </span>
         <div>
-          <p className="text-sm text-zinc-200 font-medium">{name || "Category name"}</p>
-          <p className="text-xs text-zinc-500 capitalize">{type}</p>
+          <p className="text-sm font-medium text-foreground">
+            {name || "Category name"}
+          </p>
+          <p className="text-xs capitalize text-muted-foreground">{type}</p>
         </div>
-        <div className="ml-auto w-4 h-4 rounded-full" style={{ backgroundColor: color }} />
+        <div
+          className="ml-auto h-4 w-4 rounded-full"
+          style={{ backgroundColor: color }}
+        />
       </div>
 
       {/* Actions */}
       <div className="flex justify-end gap-3 pt-2">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="px-4 py-2.5 rounded-xl bg-zinc-700 text-zinc-300 text-sm hover:bg-zinc-600 transition-colors"
-        >
+        <Button variant="secondary" onClick={onCancel}>
           Cancel
-        </button>
-        <button
-          type="submit"
-          className="px-6 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors"
-        >
-          {initialData ? "Update" : "Add"} Category
-        </button>
+        </Button>
+        <Button type="submit">{initialData ? "Update" : "Add"} Category</Button>
       </div>
     </form>
   );

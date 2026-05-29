@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import type { MonthlyStats } from "@/types";
 import { getMonthLabel } from "@/utils/format";
+import { Card } from "@/components/ui/card";
 
 interface OverviewChartProps {
   data: MonthlyStats[];
@@ -25,16 +26,20 @@ export default function OverviewChart({ data }: OverviewChartProps) {
 
   if (chartData.length === 0) {
     return (
-      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
-        <h3 className="text-sm font-medium text-zinc-400 mb-4">Monthly Overview</h3>
-        <p className="text-zinc-500 text-center py-12">No data yet</p>
-      </div>
+      <Card className="p-6">
+        <h3 className="mb-4 text-sm font-semibold text-foreground">
+          Monthly Overview
+        </h3>
+        <p className="py-12 text-center text-muted-foreground">No data yet</p>
+      </Card>
     );
   }
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
-      <h3 className="text-sm font-medium text-zinc-400 mb-4">Monthly Overview</h3>
+    <Card className="p-6">
+      <h3 className="mb-4 text-sm font-semibold text-foreground">
+        Monthly Overview
+      </h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
@@ -49,10 +54,10 @@ export default function OverviewChart({ data }: OverviewChartProps) {
             }}
           />
           <Legend />
-          <Bar dataKey="income" fill="#22c55e" radius={[4, 4, 0, 0]} name="Income" />
-          <Bar dataKey="expense" fill="#ef4444" radius={[4, 4, 0, 0]} name="Expense" />
+          <Bar dataKey="income" fill="#22c55e" radius={[6, 6, 0, 0]} name="Income" maxBarSize={28} />
+          <Bar dataKey="expense" fill="#ef4444" radius={[6, 6, 0, 0]} name="Expense" maxBarSize={28} />
         </BarChart>
       </ResponsiveContainer>
-    </div>
+    </Card>
   );
 }

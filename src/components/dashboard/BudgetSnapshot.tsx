@@ -2,20 +2,21 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
-import type { Category, Transaction } from "@/types";
-import { useBudgets } from "@/hooks/useBudgets";
+import type { Budget, Category, Transaction } from "@/types";
 import { formatCurrency, getMonthKey } from "@/utils/format";
+import { Card } from "@/components/ui/card";
 
 interface BudgetSnapshotProps {
   transactions: Transaction[];
   categories: Category[];
+  budgets: Budget[];
 }
 
 export default function BudgetSnapshot({
   transactions,
   categories,
+  budgets,
 }: BudgetSnapshotProps) {
-  const { budgets } = useBudgets();
   const currentMonth = getMonthKey(new Date().toISOString());
 
   const rows = useMemo(() => {
@@ -41,10 +42,13 @@ export default function BudgetSnapshot({
   }, [budgets, transactions, categories, currentMonth]);
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+    <Card className="p-6">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-sm font-medium text-zinc-400">Budget health</h3>
-        <Link href="/budgets" className="text-xs text-emerald-400 hover:text-emerald-300">
+        <h3 className="text-sm font-semibold text-foreground">Budget health</h3>
+        <Link
+          href="/budgets"
+          className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-medium text-emerald-400 transition-colors hover:bg-emerald-500/10 hover:text-emerald-300"
+        >
           Manage →
         </Link>
       </div>
@@ -94,6 +98,6 @@ export default function BudgetSnapshot({
           })}
         </div>
       )}
-    </div>
+    </Card>
   );
 }

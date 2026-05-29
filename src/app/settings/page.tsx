@@ -7,6 +7,8 @@ import { useBudgets } from "@/hooks/useBudgets";
 import { useGoals } from "@/hooks/useGoals";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { buildBackup, downloadBackup, parseBackup } from "@/utils/backup";
 
 const STORAGE_KEYS = {
@@ -101,52 +103,51 @@ export default function SettingsPage() {
       )}
 
       {/* Appearance */}
-      <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
-        <h2 className="text-sm font-semibold text-white">Appearance</h2>
+      <Card className="p-6">
+        <h2 className="text-sm font-semibold text-foreground">Appearance</h2>
         <div className="mt-4 flex items-center justify-between">
           <div>
-            <p className="text-sm text-zinc-300">Theme</p>
-            <p className="text-xs text-zinc-500">Switch between dark and light mode</p>
+            <p className="text-sm text-foreground">Theme</p>
+            <p className="text-xs text-muted-foreground">
+              Switch between dark and light mode
+            </p>
           </div>
           <ThemeToggle />
         </div>
-      </section>
+      </Card>
 
       {/* Data snapshot */}
-      <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
-        <h2 className="text-sm font-semibold text-white">Your data</h2>
+      <Card className="p-6">
+        <h2 className="text-sm font-semibold text-foreground">Your data</h2>
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {stats.map((s) => (
-            <div key={s.label} className="rounded-xl bg-zinc-800 p-4 text-center">
+            <div
+              key={s.label}
+              className="rounded-xl bg-secondary/50 p-4 text-center"
+            >
               <p className="text-xl">{s.icon}</p>
-              <p className="mt-1 text-xl font-bold text-white">
+              <p className="mt-1 text-xl font-bold text-foreground">
                 {txLoaded ? s.value : "—"}
               </p>
-              <p className="text-xs text-zinc-500">{s.label}</p>
+              <p className="text-xs text-muted-foreground">{s.label}</p>
             </div>
           ))}
         </div>
-      </section>
+      </Card>
 
       {/* Backup & restore */}
-      <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
-        <h2 className="text-sm font-semibold text-white">Backup &amp; restore</h2>
-        <p className="mt-1 text-xs text-zinc-500">
+      <Card className="p-6">
+        <h2 className="text-sm font-semibold text-foreground">
+          Backup &amp; restore
+        </h2>
+        <p className="mt-1 text-xs text-muted-foreground">
           Export all your data to a JSON file, or restore from a previous backup.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
-          <button
-            onClick={handleExport}
-            className="rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-500"
-          >
-            ⬇ Export data
-          </button>
-          <button
-            onClick={handleImportClick}
-            className="rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-zinc-300 transition-colors hover:bg-zinc-700"
-          >
+          <Button onClick={handleExport}>⬇ Export data</Button>
+          <Button variant="outline" onClick={handleImportClick}>
             ⬆ Import data
-          </button>
+          </Button>
           <input
             ref={fileInputRef}
             type="file"
@@ -158,21 +159,22 @@ export default function SettingsPage() {
         <p className="mt-3 text-xs text-amber-400/80">
           Importing replaces all current data with the contents of the file.
         </p>
-      </section>
+      </Card>
 
       {/* Danger zone */}
-      <section className="rounded-2xl border border-red-900/40 bg-red-950/20 p-6">
+      <Card className="border-red-900/40 bg-red-950/20 p-6">
         <h2 className="text-sm font-semibold text-red-400">Danger zone</h2>
-        <p className="mt-1 text-xs text-zinc-500">
+        <p className="mt-1 text-xs text-muted-foreground">
           Permanently delete all transactions, categories, budgets, and goals.
         </p>
-        <button
+        <Button
+          variant="outline"
           onClick={() => setShowReset(true)}
-          className="mt-4 rounded-xl border border-red-600/50 bg-red-600/10 px-4 py-2.5 text-sm font-medium text-red-400 transition-colors hover:bg-red-600/20"
+          className="mt-4 border-red-600/50 bg-red-600/10 text-red-400 hover:bg-red-600/20 hover:text-red-300"
         >
           Reset all data
-        </button>
-      </section>
+        </Button>
+      </Card>
 
       <ConfirmDialog
         isOpen={showReset}

@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import type { SavingsGoal } from "@/types";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface GoalFormProps {
   initialData?: SavingsGoal;
@@ -58,70 +61,63 @@ export default function GoalForm({ initialData, onSubmit, onCancel }: GoalFormPr
     });
   };
 
-  const inputClass =
-    "w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-zinc-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all";
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">Goal name</label>
-        <input
+        <Label>Goal name</Label>
+        <Input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="e.g. Dream Vacation"
-          className={inputClass}
         />
-        {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name}</p>}
+        {errors.name && (
+          <p className="mt-1 text-xs text-destructive">{errors.name}</p>
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-xs text-zinc-400 mb-1.5">Target</label>
-          <input
+          <Label>Target</Label>
+          <Input
             type="number"
             step="0.01"
             min="0"
             value={targetAmount}
             onChange={(e) => setTargetAmount(e.target.value)}
             placeholder="0.00"
-            className={inputClass}
           />
           {errors.targetAmount && (
-            <p className="text-xs text-red-400 mt-1">{errors.targetAmount}</p>
+            <p className="mt-1 text-xs text-destructive">{errors.targetAmount}</p>
           )}
         </div>
         <div>
-          <label className="block text-xs text-zinc-400 mb-1.5">Saved so far</label>
-          <input
+          <Label>Saved so far</Label>
+          <Input
             type="number"
             step="0.01"
             min="0"
             value={currentAmount}
             onChange={(e) => setCurrentAmount(e.target.value)}
             placeholder="0.00"
-            className={inputClass}
           />
           {errors.currentAmount && (
-            <p className="text-xs text-red-400 mt-1">{errors.currentAmount}</p>
+            <p className="mt-1 text-xs text-destructive">{errors.currentAmount}</p>
           )}
         </div>
       </div>
 
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">
-          Target date (optional)
-        </label>
-        <input
+        <Label>Target date (optional)</Label>
+        <Input
           type="date"
           value={deadline}
           onChange={(e) => setDeadline(e.target.value)}
-          className={inputClass}
         />
       </div>
 
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">Icon</label>
+        <Label>Icon</Label>
         <div className="flex flex-wrap gap-2">
           {PRESET_ICONS.map((i) => (
             <button
@@ -141,7 +137,7 @@ export default function GoalForm({ initialData, onSubmit, onCancel }: GoalFormPr
       </div>
 
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5">Color</label>
+        <Label>Color</Label>
         <div className="flex flex-wrap gap-2">
           {PRESET_COLORS.map((c) => (
             <button
@@ -160,19 +156,10 @@ export default function GoalForm({ initialData, onSubmit, onCancel }: GoalFormPr
       </div>
 
       <div className="flex justify-end gap-3 pt-2">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="px-4 py-2.5 rounded-xl bg-zinc-700 text-zinc-300 text-sm hover:bg-zinc-600 transition-colors"
-        >
+        <Button variant="secondary" onClick={onCancel}>
           Cancel
-        </button>
-        <button
-          type="submit"
-          className="px-6 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors"
-        >
-          {initialData ? "Update" : "Create"} Goal
-        </button>
+        </Button>
+        <Button type="submit">{initialData ? "Update" : "Create"} Goal</Button>
       </div>
     </form>
   );

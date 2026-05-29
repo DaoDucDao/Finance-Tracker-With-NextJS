@@ -1,6 +1,9 @@
 "use client";
 
 import type { TransactionType, Category } from "@/types";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 
 interface TransactionFiltersProps {
   search: string;
@@ -27,35 +30,32 @@ export default function TransactionFilters({
   categories,
   months,
 }: TransactionFiltersProps) {
-  const inputClass =
-    "bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2 text-sm text-zinc-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all";
-
   const filteredCategories = type ? categories.filter((c) => c.type === type) : categories;
 
   return (
     <div className="flex flex-wrap gap-3">
-      <input
+      <Input
         type="text"
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
         placeholder="Search descriptions..."
-        className={`${inputClass} flex-1 min-w-[200px]`}
+        className="min-w-[200px] flex-1"
       />
 
-      <select
+      <Select
         value={type}
         onChange={(e) => onTypeChange(e.target.value as TransactionType | "")}
-        className={inputClass}
+        className="w-auto"
       >
         <option value="">All types</option>
         <option value="income">Income</option>
         <option value="expense">Expense</option>
-      </select>
+      </Select>
 
-      <select
+      <Select
         value={categoryId}
         onChange={(e) => onCategoryChange(e.target.value)}
-        className={inputClass}
+        className="w-auto"
       >
         <option value="">All categories</option>
         {filteredCategories.map((c) => (
@@ -63,12 +63,12 @@ export default function TransactionFilters({
             {c.icon} {c.name}
           </option>
         ))}
-      </select>
+      </Select>
 
-      <select
+      <Select
         value={month}
         onChange={(e) => onMonthChange(e.target.value)}
-        className={inputClass}
+        className="w-auto"
       >
         <option value="">All months</option>
         {months.map((m) => (
@@ -76,20 +76,20 @@ export default function TransactionFilters({
             {m}
           </option>
         ))}
-      </select>
+      </Select>
 
       {(search || type || categoryId || month) && (
-        <button
+        <Button
+          variant="secondary"
           onClick={() => {
             onSearchChange("");
             onTypeChange("");
             onCategoryChange("");
             onMonthChange("");
           }}
-          className="px-3 py-2 rounded-xl bg-zinc-700 text-zinc-400 text-sm hover:bg-zinc-600 transition-colors"
         >
           Clear
-        </button>
+        </Button>
       )}
     </div>
   );

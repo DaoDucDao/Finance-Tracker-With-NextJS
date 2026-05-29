@@ -1,6 +1,8 @@
 "use client";
 
 import type { Category } from "@/types";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 interface CategoryListProps {
   categories: Category[];
@@ -13,54 +15,60 @@ export default function CategoryList({ categories, onEdit, onDelete }: CategoryL
   const expenseCategories = categories.filter((c) => c.type === "expense");
 
   const renderGroup = (title: string, items: Category[]) => (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
-      <h3 className="text-sm font-medium text-zinc-400 mb-4">{title}</h3>
+    <Card className="p-6">
+      <h3 className="mb-4 text-sm font-medium text-muted-foreground">{title}</h3>
       {items.length === 0 ? (
-        <p className="text-zinc-500 text-sm">No categories</p>
+        <p className="text-sm text-muted-foreground">No categories</p>
       ) : (
         <div className="space-y-2">
           {items.map((cat) => (
             <div
               key={cat.id}
-              className="flex items-center justify-between py-3 px-4 rounded-xl bg-zinc-800/50 hover:bg-zinc-800 transition-colors"
+              className="group flex items-center justify-between rounded-xl bg-secondary/40 px-4 py-3 transition-colors hover:bg-secondary"
             >
               <div className="flex items-center gap-3">
                 <span
-                  className="w-10 h-10 rounded-xl flex items-center justify-center text-lg"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl text-lg"
                   style={{ backgroundColor: cat.color + "20" }}
                 >
                   {cat.icon}
                 </span>
                 <div>
-                  <p className="text-sm text-zinc-200 font-medium">{cat.name}</p>
-                  <p className="text-xs text-zinc-500 capitalize">{cat.type}</p>
+                  <p className="text-sm font-medium text-foreground">{cat.name}</p>
+                  <p className="text-xs capitalize text-muted-foreground">
+                    {cat.type}
+                  </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <div
-                  className="w-4 h-4 rounded-full"
+                  className="mr-1 h-4 w-4 rounded-full"
                   style={{ backgroundColor: cat.color }}
                 />
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => onEdit(cat)}
-                  className="text-xs text-zinc-400 hover:text-emerald-400 transition-colors ml-2"
+                  className="text-muted-foreground hover:text-emerald-400"
                 >
                   Edit
-                </button>
+                </Button>
                 {!cat.id.startsWith("cat-") && (
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => onDelete(cat.id)}
-                    className="text-xs text-zinc-400 hover:text-red-400 transition-colors"
+                    className="text-muted-foreground hover:text-red-400"
                   >
                     Delete
-                  </button>
+                  </Button>
                 )}
               </div>
             </div>
           ))}
         </div>
       )}
-    </div>
+    </Card>
   );
 
   return (

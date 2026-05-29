@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
 
 interface ModalProps {
   isOpen: boolean;
@@ -31,20 +32,23 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm animate-pop-in"
       onClick={(e) => e.target === overlayRef.current && onClose()}
     >
-      <div className="bg-zinc-900 border border-zinc-700 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-700">
-          <h2 className="text-lg font-semibold text-white">{title}</h2>
-          <button
+      <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl border border-border bg-popover text-popover-foreground shadow-2xl ring-1 ring-white/5">
+        <div className="flex items-center justify-between border-b border-border px-6 py-4">
+          <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={onClose}
-            className="text-zinc-400 hover:text-white transition-colors text-xl leading-none"
+            aria-label="Close"
+            className="h-8 w-8 text-muted-foreground"
           >
-            &times;
-          </button>
+            <span className="text-xl leading-none">&times;</span>
+          </Button>
         </div>
-        <div className="px-6 py-4">{children}</div>
+        <div className="px-6 py-5">{children}</div>
       </div>
     </div>
   );
