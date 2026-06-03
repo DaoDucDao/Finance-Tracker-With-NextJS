@@ -18,9 +18,9 @@ interface MonthlyReportProps {
 }
 
 export default function MonthlyReport({ data }: MonthlyReportProps) {
-  const chartData = data.map((d) => ({
-    ...d,
-    name: getMonthLabel(d.month),
+  const chartData = data.map((entry) => ({
+    ...entry,
+    name: getMonthLabel(entry.month),
   }));
 
   if (chartData.length === 0) {

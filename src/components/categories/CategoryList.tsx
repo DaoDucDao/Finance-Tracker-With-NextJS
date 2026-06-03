@@ -11,8 +11,12 @@ interface CategoryListProps {
 }
 
 export default function CategoryList({ categories, onEdit, onDelete }: CategoryListProps) {
-  const incomeCategories = categories.filter((c) => c.type === "income");
-  const expenseCategories = categories.filter((c) => c.type === "expense");
+  const incomeCategories = categories.filter(
+    (category) => category.type === "income"
+  );
+  const expenseCategories = categories.filter(
+    (category) => category.type === "expense"
+  );
 
   const renderGroup = (title: string, items: Category[]) => (
     <Card className="p-6">
@@ -21,43 +25,45 @@ export default function CategoryList({ categories, onEdit, onDelete }: CategoryL
         <p className="text-sm text-muted-foreground">No categories</p>
       ) : (
         <div className="space-y-2">
-          {items.map((cat) => (
+          {items.map((category) => (
             <div
-              key={cat.id}
+              key={category.id}
               className="group flex items-center justify-between rounded-xl bg-secondary/40 px-4 py-3 transition-colors hover:bg-secondary"
             >
               <div className="flex items-center gap-3">
                 <span
                   className="flex h-10 w-10 items-center justify-center rounded-xl text-lg"
-                  style={{ backgroundColor: cat.color + "20" }}
+                  style={{ backgroundColor: category.color + "20" }}
                 >
-                  {cat.icon}
+                  {category.icon}
                 </span>
                 <div>
-                  <p className="text-sm font-medium text-foreground">{cat.name}</p>
+                  <p className="text-sm font-medium text-foreground">
+                    {category.name}
+                  </p>
                   <p className="text-xs capitalize text-muted-foreground">
-                    {cat.type}
+                    {category.type}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
                 <div
                   className="mr-1 h-4 w-4 rounded-full"
-                  style={{ backgroundColor: cat.color }}
+                  style={{ backgroundColor: category.color }}
                 />
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => onEdit(cat)}
+                  onClick={() => onEdit(category)}
                   className="text-muted-foreground hover:text-emerald-400"
                 >
                   Edit
                 </Button>
-                {!cat.id.startsWith("cat-") && (
+                {!category.id.startsWith("cat-") && (
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => onDelete(cat.id)}
+                    onClick={() => onDelete(category.id)}
                     className="text-muted-foreground hover:text-red-400"
                   >
                     Delete

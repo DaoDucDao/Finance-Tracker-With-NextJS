@@ -19,11 +19,11 @@ export default function BudgetCard({
   onEdit,
   onDelete,
 }: BudgetCardProps) {
-  const pct = budget.amount > 0 ? (spent / budget.amount) * 100 : 0;
-  const clamped = Math.min(pct, 100);
+  const percent = budget.amount > 0 ? (spent / budget.amount) * 100 : 0;
+  const clamped = Math.min(percent, 100);
   const remaining = budget.amount - spent;
   const over = spent > budget.amount;
-  const warning = pct >= 80 && !over;
+  const warning = percent >= 80 && !over;
 
   const barColor = over
     ? "from-red-500 to-rose-600"
@@ -83,7 +83,7 @@ export default function BudgetCard({
             over ? "text-red-400" : warning ? "text-amber-400" : "text-emerald-400"
           }`}
         >
-          {Math.round(pct)}%
+          {Math.round(percent)}%
         </span>
       </div>
 

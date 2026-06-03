@@ -6,16 +6,14 @@ import type { Budget } from "@/types";
 import { useLocalStorage } from "./useLocalStorage";
 import { generateSeedBudgets } from "@/utils/seed";
 
-export function useBudgets() {
+const useBudgets = () => {
   const [budgets, setBudgets, isLoaded] = useLocalStorage<Budget[]>(
     "finance-budgets",
     []
   );
 
   const initSeedData = useCallback(() => {
-    if (isLoaded && budgets.length === 0) {
-      setBudgets(generateSeedBudgets());
-    }
+    if (isLoaded && budgets.length === 0) setBudgets(generateSeedBudgets());
   }, [isLoaded, budgets.length, setBudgets]);
 
   const addBudget = useCallback(
@@ -25,6 +23,7 @@ export function useBudgets() {
         id: uuid(),
         createdAt: new Date().toISOString(),
       };
+
       setBudgets((prev) => [...prev, newBudget]);
     },
     [setBudgets]
@@ -32,14 +31,16 @@ export function useBudgets() {
 
   const updateBudget = useCallback(
     (id: string, data: Partial<Omit<Budget, "id" | "createdAt">>) => {
-      setBudgets((prev) => prev.map((b) => (b.id === id ? { ...b, ...data } : b)));
+      setBudgets((prev) =>
+        prev.map((budget) => (budget.id === id ? { ...budget, ...data } : budget))
+      );
     },
     [setBudgets]
   );
 
   const deleteBudget = useCallback(
     (id: string) => {
-      setBudgets((prev) => prev.filter((b) => b.id !== id));
+      setBudgets((prev) => prev.filter((budget) => budget.id !== id));
     },
     [setBudgets]
   );
@@ -52,4 +53,6 @@ export function useBudgets() {
     deleteBudget,
     initSeedData,
   };
-}
+};
+
+export { useBudgets };

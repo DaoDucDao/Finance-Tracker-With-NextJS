@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import type { Budget, Category, SavingsGoal, Transaction } from "@/types";
 
-export const DEFAULT_CATEGORIES: Category[] = [
+const DEFAULT_CATEGORIES: Category[] = [
   { id: "cat-salary", name: "Salary", type: "income", color: "#22c55e", icon: "💰" },
   { id: "cat-freelance", name: "Freelance", type: "income", color: "#06b6d4", icon: "💻" },
   { id: "cat-investment", name: "Investment", type: "income", color: "#8b5cf6", icon: "📈" },
@@ -17,13 +17,14 @@ export const DEFAULT_CATEGORIES: Category[] = [
   { id: "cat-other-ex", name: "Other", type: "expense", color: "#64748b", icon: "📤" },
 ];
 
-function randomDate(daysBack: number): string {
-  const d = new Date();
-  d.setDate(d.getDate() - Math.floor(Math.random() * daysBack));
-  return d.toISOString().split("T")[0];
-}
+const randomDate = (daysBack: number): string => {
+  const date = new Date();
+  date.setDate(date.getDate() - Math.floor(Math.random() * daysBack));
 
-export function generateSeedTransactions(): Transaction[] {
+  return date.toISOString().split("T")[0];
+};
+
+const generateSeedTransactions = (): Transaction[] => {
   const now = new Date().toISOString();
   const data: Omit<Transaction, "id" | "createdAt">[] = [
     { type: "income", amount: 5000, categoryId: "cat-salary", description: "Monthly salary", date: randomDate(5) },
@@ -53,10 +54,10 @@ export function generateSeedTransactions(): Transaction[] {
     { type: "income", amount: 200, categoryId: "cat-investment", description: "Bond interest", date: randomDate(45) },
   ];
 
-  return data.map((d) => ({ ...d, id: uuid(), createdAt: now }));
-}
+  return data.map((entry) => ({ ...entry, id: uuid(), createdAt: now }));
+};
 
-export function generateSeedBudgets(): Budget[] {
+const generateSeedBudgets = (): Budget[] => {
   const now = new Date().toISOString();
   const data: Omit<Budget, "id" | "createdAt">[] = [
     { categoryId: "cat-food", amount: 500 },
@@ -65,21 +66,32 @@ export function generateSeedBudgets(): Budget[] {
     { categoryId: "cat-bills", amount: 450 },
     { categoryId: "cat-entertainment", amount: 150 },
   ];
-  return data.map((d) => ({ ...d, id: uuid(), createdAt: now }));
-}
 
-export function generateSeedGoals(): SavingsGoal[] {
+  return data.map((entry) => ({ ...entry, id: uuid(), createdAt: now }));
+};
+
+const generateSeedGoals = (): SavingsGoal[] => {
   const now = new Date().toISOString();
+
   const future = (days: number) => {
-    const d = new Date();
-    d.setDate(d.getDate() + days);
-    return d.toISOString().split("T")[0];
+    const date = new Date();
+    date.setDate(date.getDate() + days);
+
+    return date.toISOString().split("T")[0];
   };
+
   const data: Omit<SavingsGoal, "id" | "createdAt">[] = [
     { name: "Emergency Fund", targetAmount: 10000, currentAmount: 6500, color: "#22c55e", icon: "🛟", deadline: future(180) },
     { name: "New Laptop", targetAmount: 2000, currentAmount: 1850, color: "#8b5cf6", icon: "💻", deadline: future(60) },
     { name: "Dream Vacation", targetAmount: 5000, currentAmount: 1200, color: "#06b6d4", icon: "🏝️", deadline: future(300) },
     { name: "New Car", targetAmount: 25000, currentAmount: 25000, color: "#f97316", icon: "🚗" },
   ];
-  return data.map((d) => ({ ...d, id: uuid(), createdAt: now }));
-}
+  return data.map((entry) => ({ ...entry, id: uuid(), createdAt: now }));
+};
+
+export {
+  DEFAULT_CATEGORIES,
+  generateSeedTransactions,
+  generateSeedBudgets,
+  generateSeedGoals,
+};

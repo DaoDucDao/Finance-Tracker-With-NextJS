@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-export function useLocalStorage<T>(key: string, initialValue: T) {
+const useLocalStorage = <T>(key: string, initialValue: T) => {
   const [storedValue, setStoredValue] = useState<T>(initialValue);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -13,6 +13,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
     } catch {
       // keep initial value
     }
+
     setIsLoaded(true);
   }, [key]);
 
@@ -21,6 +22,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
       setStoredValue((prev) => {
         const next = value instanceof Function ? value(prev) : value;
         localStorage.setItem(key, JSON.stringify(next));
+
         return next;
       });
     },
@@ -28,4 +30,6 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
   );
 
   return [storedValue, setValue, isLoaded] as const;
-}
+};
+
+export { useLocalStorage };

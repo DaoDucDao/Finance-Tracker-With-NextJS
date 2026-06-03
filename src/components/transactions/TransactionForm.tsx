@@ -29,28 +29,31 @@ export default function TransactionForm({
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const filteredCategories = categories.filter((c) => c.type === type);
+  const filteredCategories = categories.filter((category) => category.type === type);
 
   useEffect(() => {
-    if (!filteredCategories.find((c) => c.id === categoryId)) {
+    if (!filteredCategories.find((category) => category.id === categoryId))
       setCategoryId(filteredCategories[0]?.id ?? "");
-    }
   }, [type, filteredCategories, categoryId]);
 
   const validate = () => {
-    const errs: Record<string, string> = {};
+    const validationErrors: Record<string, string> = {};
+
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0)
-      errs.amount = "Enter a valid amount";
-    if (!categoryId) errs.categoryId = "Select a category";
-    if (!description.trim()) errs.description = "Enter a description";
-    if (!date) errs.date = "Select a date";
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
+      validationErrors.amount = "Enter a valid amount";
+    if (!categoryId) validationErrors.categoryId = "Select a category";
+    if (!description.trim()) validationErrors.description = "Enter a description";
+    if (!date) validationErrors.date = "Select a date";
+
+    setErrors(validationErrors);
+
+    return Object.keys(validationErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     if (!validate()) return;
+
     onSubmit({
       type,
       amount: Number(amount),
@@ -64,20 +67,20 @@ export default function TransactionForm({
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Type toggle */}
       <div className="grid grid-cols-2 gap-2 rounded-xl bg-secondary/50 p-1">
-        {(["expense", "income"] as TransactionType[]).map((t) => (
+        {(["expense", "income"] as TransactionType[]).map((option) => (
           <button
-            key={t}
+            key={option}
             type="button"
-            onClick={() => setType(t)}
+            onClick={() => setType(option)}
             className={`rounded-lg py-2 text-sm font-medium transition-all ${
-              type === t
-                ? t === "income"
+              type === option
+                ? option === "income"
                   ? "bg-emerald-600 text-white shadow-sm"
                   : "bg-red-600 text-white shadow-sm"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            {t === "income" ? "Income" : "Expense"}
+            {option === "income" ? "Income" : "Expense"}
           </button>
         ))}
       </div>
@@ -90,7 +93,7 @@ export default function TransactionForm({
           step="0.01"
           min="0"
           value={amount}
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={(event) => setAmount(event.target.value)}
           placeholder="0.00"
         />
         {errors.amount && (
@@ -103,12 +106,12 @@ export default function TransactionForm({
         <Label>Category</Label>
         <Select
           value={categoryId}
-          onChange={(e) => setCategoryId(e.target.value)}
+          onChange={(event) => setCategoryId(event.target.value)}
         >
           <option value="">Select category</option>
-          {filteredCategories.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.icon} {c.name}
+          {filteredCategories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.icon} {category.name}
             </option>
           ))}
         </Select>
@@ -123,7 +126,7 @@ export default function TransactionForm({
         <Input
           type="text"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(event) => setDescription(event.target.value)}
           placeholder="What was this for?"
         />
         {errors.description && (
@@ -137,7 +140,7 @@ export default function TransactionForm({
         <Input
           type="date"
           value={date}
-          onChange={(e) => setDate(e.target.value)}
+          onChange={(event) => setDate(event.target.value)}
         />
         {errors.date && (
           <p className="mt-1 text-xs text-destructive">{errors.date}</p>

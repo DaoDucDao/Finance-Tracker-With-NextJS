@@ -1,6 +1,6 @@
-export type TransactionType = "income" | "expense";
+type TransactionType = "income" | "expense";
 
-export interface Category {
+interface Category {
   id: string;
   name: string;
   type: TransactionType;
@@ -8,7 +8,7 @@ export interface Category {
   icon: string;
 }
 
-export interface Transaction {
+interface Transaction {
   id: string;
   type: TransactionType;
   amount: number;
@@ -18,21 +18,21 @@ export interface Transaction {
   createdAt: string;
 }
 
-export interface MonthlyStats {
+interface MonthlyStats {
   month: string;
   income: number;
   expense: number;
   balance: number;
 }
 
-export interface Budget {
+interface Budget {
   id: string;
   categoryId: string;
   amount: number; // monthly spending limit
   createdAt: string;
 }
 
-export interface SavingsGoal {
+interface SavingsGoal {
   id: string;
   name: string;
   targetAmount: number;
@@ -43,9 +43,9 @@ export interface SavingsGoal {
   createdAt: string;
 }
 
-export type Theme = "dark" | "light";
+type Theme = "dark" | "light";
 
-export interface BackupData {
+interface BackupData {
   version: number;
   exportedAt: string;
   transactions: Transaction[];
@@ -53,3 +53,14 @@ export interface BackupData {
   budgets: Budget[];
   goals: SavingsGoal[];
 }
+
+export type {
+  TransactionType,
+  Category,
+  Transaction,
+  MonthlyStats,
+  Budget,
+  SavingsGoal,
+  Theme,
+  BackupData,
+};

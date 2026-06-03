@@ -38,12 +38,14 @@ export default function SettingsPage() {
 
   const handleImportClick = () => fileInputRef.current?.click();
 
-  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (!file) return;
+
     try {
       const text = await file.text();
       const backup = parseBackup(text);
+
       localStorage.setItem(
         STORAGE_KEYS.transactions,
         JSON.stringify(backup.transactions)
@@ -59,18 +61,18 @@ export default function SettingsPage() {
         text: `Imported ${backup.transactions.length} transactions. Reloading...`,
       });
       setTimeout(() => window.location.reload(), 800);
-    } catch (err) {
+    } catch (error) {
       setMessage({
         type: "err",
-        text: err instanceof Error ? err.message : "Could not read that file.",
+        text: error instanceof Error ? error.message : "Could not read that file.",
       });
     } finally {
-      e.target.value = "";
+      event.target.value = "";
     }
   };
 
   const handleReset = () => {
-    Object.values(STORAGE_KEYS).forEach((k) => localStorage.removeItem(k));
+    Object.values(STORAGE_KEYS).forEach((key) => localStorage.removeItem(key));
     window.location.reload();
   };
 
@@ -120,16 +122,16 @@ export default function SettingsPage() {
       <Card className="p-6">
         <h2 className="text-sm font-semibold text-foreground">Your data</h2>
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {stats.map((s) => (
+          {stats.map((item) => (
             <div
-              key={s.label}
+              key={item.label}
               className="rounded-xl bg-secondary/50 p-4 text-center"
             >
-              <p className="text-xl">{s.icon}</p>
+              <p className="text-xl">{item.icon}</p>
               <p className="mt-1 text-xl font-bold text-foreground">
-                {txLoaded ? s.value : "—"}
+                {txLoaded ? item.value : "—"}
               </p>
-              <p className="text-xs text-muted-foreground">{s.label}</p>
+              <p className="text-xs text-muted-foreground">{item.label}</p>
             </div>
           ))}
         </div>

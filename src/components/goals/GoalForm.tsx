@@ -36,21 +36,25 @@ export default function GoalForm({ initialData, onSubmit, onCancel }: GoalFormPr
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validate = () => {
-    const errs: Record<string, string> = {};
-    if (!name.trim()) errs.name = "Enter a goal name";
-    const target = parseFloat(targetAmount);
-    if (!targetAmount || isNaN(target) || target <= 0)
-      errs.targetAmount = "Enter a target above 0";
-    const current = parseFloat(currentAmount);
-    if (currentAmount === "" || isNaN(current) || current < 0)
-      errs.currentAmount = "Enter a valid amount";
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
+    const validationErrors: Record<string, string> = {};
+    const parsedTarget = parseFloat(targetAmount);
+    const parsedCurrent = parseFloat(currentAmount);
+
+    if (!name.trim()) validationErrors.name = "Enter a goal name";
+    if (!targetAmount || isNaN(parsedTarget) || parsedTarget <= 0)
+      validationErrors.targetAmount = "Enter a target above 0";
+    if (currentAmount === "" || isNaN(parsedCurrent) || parsedCurrent < 0)
+      validationErrors.currentAmount = "Enter a valid amount";
+
+    setErrors(validationErrors);
+
+    return Object.keys(validationErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     if (!validate()) return;
+
     onSubmit({
       name: name.trim(),
       targetAmount: parseFloat(targetAmount),
@@ -68,7 +72,7 @@ export default function GoalForm({ initialData, onSubmit, onCancel }: GoalFormPr
         <Input
           type="text"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(event) => setName(event.target.value)}
           placeholder="e.g. Dream Vacation"
         />
         {errors.name && (
@@ -84,7 +88,7 @@ export default function GoalForm({ initialData, onSubmit, onCancel }: GoalFormPr
             step="0.01"
             min="0"
             value={targetAmount}
-            onChange={(e) => setTargetAmount(e.target.value)}
+            onChange={(event) => setTargetAmount(event.target.value)}
             placeholder="0.00"
           />
           {errors.targetAmount && (
@@ -98,7 +102,7 @@ export default function GoalForm({ initialData, onSubmit, onCancel }: GoalFormPr
             step="0.01"
             min="0"
             value={currentAmount}
-            onChange={(e) => setCurrentAmount(e.target.value)}
+            onChange={(event) => setCurrentAmount(event.target.value)}
             placeholder="0.00"
           />
           {errors.currentAmount && (
@@ -112,25 +116,25 @@ export default function GoalForm({ initialData, onSubmit, onCancel }: GoalFormPr
         <Input
           type="date"
           value={deadline}
-          onChange={(e) => setDeadline(e.target.value)}
+          onChange={(event) => setDeadline(event.target.value)}
         />
       </div>
 
       <div>
         <Label>Icon</Label>
         <div className="flex flex-wrap gap-2">
-          {PRESET_ICONS.map((i) => (
+          {PRESET_ICONS.map((iconOption) => (
             <button
-              key={i}
+              key={iconOption}
               type="button"
-              onClick={() => setIcon(i)}
+              onClick={() => setIcon(iconOption)}
               className={`w-10 h-10 rounded-xl text-lg flex items-center justify-center transition-all ${
-                icon === i
+                icon === iconOption
                   ? "bg-zinc-600 ring-2 ring-emerald-500"
                   : "bg-zinc-800 hover:bg-zinc-700"
               }`}
             >
-              {i}
+              {iconOption}
             </button>
           ))}
         </div>
@@ -139,17 +143,17 @@ export default function GoalForm({ initialData, onSubmit, onCancel }: GoalFormPr
       <div>
         <Label>Color</Label>
         <div className="flex flex-wrap gap-2">
-          {PRESET_COLORS.map((c) => (
+          {PRESET_COLORS.map((colorOption) => (
             <button
-              key={c}
+              key={colorOption}
               type="button"
-              onClick={() => setColor(c)}
+              onClick={() => setColor(colorOption)}
               className={`w-8 h-8 rounded-full transition-all ${
-                color === c
+                color === colorOption
                   ? "ring-2 ring-white ring-offset-2 ring-offset-zinc-900 scale-110"
                   : ""
               }`}
-              style={{ backgroundColor: c }}
+              style={{ backgroundColor: colorOption }}
             />
           ))}
         </div>

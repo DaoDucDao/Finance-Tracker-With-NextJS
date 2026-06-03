@@ -36,8 +36,8 @@ export default function CategoriesPage() {
 
       <CategoryList
         categories={categories}
-        onEdit={(cat) => {
-          setEditing(cat);
+        onEdit={(selected) => {
+          setEditing(selected);
           setShowForm(true);
         }}
         onDelete={(id) => setDeleteId(id)}

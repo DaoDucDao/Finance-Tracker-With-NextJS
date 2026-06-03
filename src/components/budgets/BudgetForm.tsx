@@ -22,9 +22,13 @@ export default function BudgetForm({
   onSubmit,
   onCancel,
 }: BudgetFormProps) {
-  const expenseCategories = categories.filter((c) => c.type === "expense");
+  const expenseCategories = categories.filter(
+    (category) => category.type === "expense"
+  );
   const available = expenseCategories.filter(
-    (c) => c.id === initialData?.categoryId || !usedCategoryIds.includes(c.id)
+    (category) =>
+      category.id === initialData?.categoryId ||
+      !usedCategoryIds.includes(category.id)
   );
 
   const [categoryId, setCategoryId] = useState(
@@ -34,17 +38,22 @@ export default function BudgetForm({
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validate = () => {
-    const errs: Record<string, string> = {};
-    if (!categoryId) errs.categoryId = "Pick a category";
-    const num = parseFloat(amount);
-    if (!amount || isNaN(num) || num <= 0) errs.amount = "Enter an amount above 0";
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
+    const validationErrors: Record<string, string> = {};
+    const parsedAmount = parseFloat(amount);
+
+    if (!categoryId) validationErrors.categoryId = "Pick a category";
+    if (!amount || isNaN(parsedAmount) || parsedAmount <= 0)
+      validationErrors.amount = "Enter an amount above 0";
+
+    setErrors(validationErrors);
+
+    return Object.keys(validationErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     if (!validate()) return;
+
     onSubmit({ categoryId, amount: parseFloat(amount) });
   };
 
@@ -54,12 +63,12 @@ export default function BudgetForm({
         <Label>Category</Label>
         <Select
           value={categoryId}
-          onChange={(e) => setCategoryId(e.target.value)}
+          onChange={(event) => setCategoryId(event.target.value)}
         >
           {available.length === 0 && <option value="">No categories left</option>}
-          {available.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.icon} {c.name}
+          {available.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.icon} {category.name}
             </option>
           ))}
         </Select>
@@ -75,7 +84,7 @@ export default function BudgetForm({
           step="0.01"
           min="0"
           value={amount}
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={(event) => setAmount(event.target.value)}
           placeholder="0.00"
         />
         {errors.amount && (

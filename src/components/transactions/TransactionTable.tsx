@@ -18,10 +18,13 @@ export default function TransactionTable({
   onEdit,
   onDelete,
 }: TransactionTableProps) {
-  const categoryMap = new Map(categories.map((c) => [c.id, c]));
+  const categoryMap = new Map(
+    categories.map((category) => [category.id, category])
+  );
 
   const sorted = [...transactions].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    (first, second) =>
+      new Date(second.date).getTime() - new Date(first.date).getTime()
   );
 
   if (sorted.length === 0) {
@@ -56,41 +59,46 @@ export default function TransactionTable({
             </tr>
           </thead>
           <tbody>
-            {sorted.map((t) => {
-              const cat = categoryMap.get(t.categoryId);
+            {sorted.map((transaction) => {
+              const category = categoryMap.get(transaction.categoryId);
+
               return (
                 <tr
-                  key={t.id}
+                  key={transaction.id}
                   className="border-b border-border/50 transition-colors hover:bg-secondary/40"
                 >
                   <td className="px-5 py-3 text-sm text-muted-foreground whitespace-nowrap">
-                    {formatDate(t.date)}
+                    {formatDate(transaction.date)}
                   </td>
-                  <td className="px-5 py-3 text-sm text-foreground">{t.description}</td>
+                  <td className="px-5 py-3 text-sm text-foreground">
+                    {transaction.description}
+                  </td>
                   <td className="px-5 py-3">
                     <span
                       className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg"
                       style={{
-                        backgroundColor: (cat?.color ?? "#64748b") + "20",
-                        color: cat?.color ?? "#64748b",
+                        backgroundColor: (category?.color ?? "#64748b") + "20",
+                        color: category?.color ?? "#64748b",
                       }}
                     >
-                      {cat?.icon} {cat?.name ?? "Unknown"}
+                      {category?.icon} {category?.name ?? "Unknown"}
                     </span>
                   </td>
                   <td
                     className={`px-5 py-3 text-sm font-medium text-right whitespace-nowrap ${
-                      t.type === "income" ? "text-emerald-400" : "text-red-400"
+                      transaction.type === "income"
+                        ? "text-emerald-400"
+                        : "text-red-400"
                     }`}
                   >
-                    {t.type === "income" ? "+" : "-"}
-                    {formatCurrency(t.amount)}
+                    {transaction.type === "income" ? "+" : "-"}
+                    {formatCurrency(transaction.amount)}
                   </td>
                   <td className="px-5 py-3 text-right whitespace-nowrap">
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => onEdit(t)}
+                      onClick={() => onEdit(transaction)}
                       className="text-muted-foreground hover:text-emerald-400"
                     >
                       Edit
@@ -98,7 +106,7 @@ export default function TransactionTable({
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => onDelete(t.id)}
+                      onClick={() => onDelete(transaction.id)}
                       className="text-muted-foreground hover:text-red-400"
                     >
                       Delete

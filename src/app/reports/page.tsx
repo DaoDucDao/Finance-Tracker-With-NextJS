@@ -5,6 +5,7 @@ import { useCategories } from "@/hooks/useCategories";
 import MonthlyReport from "@/components/reports/MonthlyReport";
 import CategoryChart from "@/components/dashboard/CategoryChart";
 import StatCard from "@/components/dashboard/StatCard";
+import { Button } from "@/components/ui/button";
 import { exportToCSV } from "@/utils/csv";
 
 export default function ReportsPage() {
@@ -13,12 +14,14 @@ export default function ReportsPage() {
 
   const avgMonthlyExpense =
     monthlyData.length > 0
-      ? monthlyData.reduce((s, m) => s + m.expense, 0) / monthlyData.length
+      ? monthlyData.reduce((sum, month) => sum + month.expense, 0) /
+        monthlyData.length
       : 0;
 
   const avgMonthlyIncome =
     monthlyData.length > 0
-      ? monthlyData.reduce((s, m) => s + m.income, 0) / monthlyData.length
+      ? monthlyData.reduce((sum, month) => sum + month.income, 0) /
+        monthlyData.length
       : 0;
 
   return (
@@ -30,12 +33,12 @@ export default function ReportsPage() {
             Analyze your financial trends
           </p>
         </div>
-        <button
+        <Button
+          variant="outline"
           onClick={() => exportToCSV(transactions, categories)}
-          className="px-4 py-2.5 rounded-xl bg-zinc-800 text-zinc-300 text-sm hover:bg-zinc-700 transition-colors border border-zinc-700"
         >
           Export All CSV
-        </button>
+        </Button>
       </div>
 
       {/* Summary stats */}

@@ -34,9 +34,12 @@ export default function GoalsPage() {
   }, [isLoaded, initSeedData]);
 
   const summary = useMemo(() => {
-    const saved = goals.reduce((s, g) => s + g.currentAmount, 0);
-    const target = goals.reduce((s, g) => s + g.targetAmount, 0);
-    const reached = goals.filter((g) => g.currentAmount >= g.targetAmount).length;
+    const saved = goals.reduce((sum, goal) => sum + goal.currentAmount, 0);
+    const target = goals.reduce((sum, goal) => sum + goal.targetAmount, 0);
+    const reached = goals.filter(
+      (goal) => goal.currentAmount >= goal.targetAmount
+    ).length;
+
     return { saved, target, reached };
   }, [goals]);
 
@@ -80,13 +83,13 @@ export default function GoalsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {goals.map((g) => (
+          {goals.map((goal) => (
             <GoalCard
-              key={g.id}
-              goal={g}
-              onContribute={(goal) => setContributing(goal)}
-              onEdit={(goal) => {
-                setEditing(goal);
+              key={goal.id}
+              goal={goal}
+              onContribute={setContributing}
+              onEdit={(selected) => {
+                setEditing(selected);
                 setShowForm(true);
               }}
               onDelete={(id) => setDeleteId(id)}
@@ -108,12 +111,12 @@ export default function GoalsPage() {
               const wasComplete = editing.currentAmount >= editing.targetAmount;
               updateGoal(editing.id, data);
               if (!wasComplete && data.currentAmount >= data.targetAmount) {
-                setConfettiTrigger((t) => t + 1);
+                setConfettiTrigger((count) => count + 1);
               }
             } else {
               addGoal(data);
               if (data.currentAmount >= data.targetAmount) {
-                setConfettiTrigger((t) => t + 1);
+                setConfettiTrigger((count) => count + 1);
               }
             }
             setShowForm(false);
@@ -139,7 +142,7 @@ export default function GoalsPage() {
                 !wasComplete &&
                 contributing.currentAmount + amount >= contributing.targetAmount
               ) {
-                setConfettiTrigger((t) => t + 1);
+                setConfettiTrigger((count) => count + 1);
               }
               setContributing(undefined);
             }}

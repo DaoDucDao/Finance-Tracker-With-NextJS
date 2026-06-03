@@ -6,22 +6,21 @@ import type { Category, TransactionType } from "@/types";
 import { useLocalStorage } from "./useLocalStorage";
 import { DEFAULT_CATEGORIES } from "@/utils/seed";
 
-export function useCategories() {
+const useCategories = () => {
   const [categories, setCategories, isLoaded] = useLocalStorage<Category[]>(
     "finance-categories",
     DEFAULT_CATEGORIES
   );
 
   const initDefaults = useCallback(() => {
-    if (isLoaded && categories.length === 0) {
-      setCategories(DEFAULT_CATEGORIES);
-    }
+    if (isLoaded && categories.length === 0) setCategories(DEFAULT_CATEGORIES);
   }, [isLoaded, categories.length, setCategories]);
 
   const addCategory = useCallback(
     (data: Omit<Category, "id">) => {
-      const newCat: Category = { ...data, id: uuid() };
-      setCategories((prev) => [...prev, newCat]);
+      const newCategory: Category = { ...data, id: uuid() };
+
+      setCategories((prev) => [...prev, newCategory]);
     },
     [setCategories]
   );
@@ -29,7 +28,9 @@ export function useCategories() {
   const updateCategory = useCallback(
     (id: string, data: Partial<Omit<Category, "id">>) => {
       setCategories((prev) =>
-        prev.map((c) => (c.id === id ? { ...c, ...data } : c))
+        prev.map((category) =>
+          category.id === id ? { ...category, ...data } : category
+        )
       );
     },
     [setCategories]
@@ -37,18 +38,19 @@ export function useCategories() {
 
   const deleteCategory = useCallback(
     (id: string) => {
-      setCategories((prev) => prev.filter((c) => c.id !== id));
+      setCategories((prev) => prev.filter((category) => category.id !== id));
     },
     [setCategories]
   );
 
   const getByType = useCallback(
-    (type: TransactionType) => categories.filter((c) => c.type === type),
+    (type: TransactionType) =>
+      categories.filter((category) => category.type === type),
     [categories]
   );
 
   const getById = useCallback(
-    (id: string) => categories.find((c) => c.id === id),
+    (id: string) => categories.find((category) => category.id === id),
     [categories]
   );
 
@@ -62,4 +64,6 @@ export function useCategories() {
     getById,
     initDefaults,
   };
-}
+};
+
+export { useCategories };

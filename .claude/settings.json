@@ -8,7 +8,11 @@
       "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node diag.js 2>&1 | Select-Object -Last 25)",
       "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node diag.js 2>&1 | Select-Object -Last 8)",
       "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node shot-light.js \"http://localhost:3001/\" \"$env:TEMP\\\\fintracker-shot\\\\final-light.png\" 2>&1 | Select-Object -Last 4)",
-      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node shot-light.js \"http://localhost:3001/budgets\" \"$env:TEMP\\\\fintracker-shot\\\\budgets.png\"; node shot-light.js \"http://localhost:3001/goals\" \"$env:TEMP\\\\fintracker-shot\\\\goals.png\" 2>&1 | Select-Object -Last 4)"
+      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node shot-light.js \"http://localhost:3001/budgets\" \"$env:TEMP\\\\fintracker-shot\\\\budgets.png\"; node shot-light.js \"http://localhost:3001/goals\" \"$env:TEMP\\\\fintracker-shot\\\\goals.png\" 2>&1 | Select-Object -Last 4)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node shot.js \"http://localhost:3001/\" \"$env:TEMP\\\\fintracker-shot\\\\refactor.png\" 2>&1 | Select-Object -Last 6)",
+      "PowerShell($ok=$false; for\\($i=0;$i -lt 40;$i++\\){ try { $r=Invoke-WebRequest -Uri \"http://localhost:3050/\" -UseBasicParsing -TimeoutSec 3; if\\($r.StatusCode -eq 200\\){ $ok=$true; break } } catch {}; Start-Sleep -Milliseconds 1000 }; \"$ok\")",
+      "PowerShell(Set-Location \"$env:TEMP\\\\fintracker-shot\"; node shot.js \"http://localhost:3050/\" \"$env:TEMP\\\\fintracker-shot\\\\refactor.png\" 2>&1 | Select-Object -Last 8)",
+      "Read(//c/Users/Admin/AppData/Local/Temp/fintracker-shot/**)"
     ]
   }
 }

@@ -30,15 +30,19 @@ export default function CategoryForm({ initialData, onSubmit, onCancel }: Catego
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validate = () => {
-    const errs: Record<string, string> = {};
-    if (!name.trim()) errs.name = "Enter a category name";
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
+    const validationErrors: Record<string, string> = {};
+
+    if (!name.trim()) validationErrors.name = "Enter a category name";
+
+    setErrors(validationErrors);
+
+    return Object.keys(validationErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     if (!validate()) return;
+
     onSubmit({ name: name.trim(), type, color, icon });
   };
 
@@ -46,20 +50,20 @@ export default function CategoryForm({ initialData, onSubmit, onCancel }: Catego
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Type */}
       <div className="grid grid-cols-2 gap-2 rounded-xl bg-secondary/50 p-1">
-        {(["expense", "income"] as TransactionType[]).map((t) => (
+        {(["expense", "income"] as TransactionType[]).map((option) => (
           <button
-            key={t}
+            key={option}
             type="button"
-            onClick={() => setType(t)}
+            onClick={() => setType(option)}
             className={`rounded-lg py-2 text-sm font-medium transition-all ${
-              type === t
-                ? t === "income"
+              type === option
+                ? option === "income"
                   ? "bg-emerald-600 text-white shadow-sm"
                   : "bg-red-600 text-white shadow-sm"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            {t === "income" ? "Income" : "Expense"}
+            {option === "income" ? "Income" : "Expense"}
           </button>
         ))}
       </div>
@@ -82,18 +86,18 @@ export default function CategoryForm({ initialData, onSubmit, onCancel }: Catego
       <div>
         <Label>Icon</Label>
         <div className="flex flex-wrap gap-2">
-          {PRESET_ICONS.map((i) => (
+          {PRESET_ICONS.map((iconOption) => (
             <button
-              key={i}
+              key={iconOption}
               type="button"
-              onClick={() => setIcon(i)}
+              onClick={() => setIcon(iconOption)}
               className={`w-10 h-10 rounded-xl text-lg flex items-center justify-center transition-all ${
-                icon === i
+                icon === iconOption
                   ? "bg-zinc-600 ring-2 ring-emerald-500"
                   : "bg-zinc-800 hover:bg-zinc-700"
               }`}
             >
-              {i}
+              {iconOption}
             </button>
           ))}
         </div>
@@ -103,15 +107,17 @@ export default function CategoryForm({ initialData, onSubmit, onCancel }: Catego
       <div>
         <Label>Color</Label>
         <div className="flex flex-wrap gap-2">
-          {PRESET_COLORS.map((c) => (
+          {PRESET_COLORS.map((colorOption) => (
             <button
-              key={c}
+              key={colorOption}
               type="button"
-              onClick={() => setColor(c)}
+              onClick={() => setColor(colorOption)}
               className={`w-8 h-8 rounded-full transition-all ${
-                color === c ? "ring-2 ring-white ring-offset-2 ring-offset-zinc-900 scale-110" : ""
+                color === colorOption
+                  ? "ring-2 ring-white ring-offset-2 ring-offset-zinc-900 scale-110"
+                  : ""
               }`}
-              style={{ backgroundColor: c }}
+              style={{ backgroundColor: colorOption }}
             />
           ))}
         </div>

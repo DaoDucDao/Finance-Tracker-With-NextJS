@@ -10,7 +10,7 @@ import Modal from "@/components/ui/Modal";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import { Button } from "@/components/ui/button";
 import { exportToCSV } from "@/utils/csv";
-import { getMonthKey, getMonthLabel } from "@/utils/format";
+import { getMonthKey } from "@/utils/format";
 import type { Transaction, TransactionType } from "@/types";
 
 export default function TransactionsPage() {
@@ -39,17 +39,12 @@ export default function TransactionsPage() {
   );
 
   const availableMonths = useMemo(() => {
-    const months = new Set(transactions.map((t) => getMonthKey(t.date)));
-    return Array.from(months)
-      .sort()
-      .reverse()
-      .map((m) => m);
-  }, [transactions]);
+    const months = new Set(
+      transactions.map((transaction) => getMonthKey(transaction.date))
+    );
 
-  const monthLabels = useMemo(
-    () => availableMonths.map((m) => ({ value: m, label: getMonthLabel(m) })),
-    [availableMonths]
-  );
+    return Array.from(months).sort().reverse();
+  }, [transactions]);
 
   return (
     <div className="p-8 space-y-6">
@@ -94,8 +89,8 @@ export default function TransactionsPage() {
       <TransactionTable
         transactions={filtered}
         categories={categories}
-        onEdit={(t) => {
-          setEditing(t);
+        onEdit={(selected) => {
+          setEditing(selected);
           setShowForm(true);
         }}
         onDelete={(id) => setDeleteId(id)}

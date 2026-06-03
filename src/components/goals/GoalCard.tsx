@@ -20,12 +20,12 @@ export default function GoalCard({
   onEdit,
   onDelete,
 }: GoalCardProps) {
-  const pct =
+  const percent =
     goal.targetAmount > 0
       ? Math.min((goal.currentAmount / goal.targetAmount) * 100, 100)
       : 0;
   const complete = goal.currentAmount >= goal.targetAmount;
-  const dashOffset = CIRCUMFERENCE - (pct / 100) * CIRCUMFERENCE;
+  const dashOffset = CIRCUMFERENCE - (percent / 100) * CIRCUMFERENCE;
 
   const daysLeft = goal.deadline ? daysUntil(goal.deadline) : null;
 
@@ -71,7 +71,7 @@ export default function GoalCard({
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <span className="text-3xl">{goal.icon}</span>
             <span className="mt-0.5 text-sm font-bold text-white">
-              {Math.round(pct)}%
+              {Math.round(percent)}%
             </span>
           </div>
         </div>

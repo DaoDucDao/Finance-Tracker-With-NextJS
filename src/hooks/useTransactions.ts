@@ -7,26 +7,26 @@ import { useLocalStorage } from "./useLocalStorage";
 import { generateSeedTransactions } from "@/utils/seed";
 import { getMonthKey } from "@/utils/format";
 
-export function useTransactions() {
+const useTransactions = () => {
   const [transactions, setTransactions, isLoaded] = useLocalStorage<Transaction[]>(
     "finance-transactions",
     []
   );
 
   const initSeedData = useCallback(() => {
-    if (transactions.length === 0 && isLoaded) {
+    if (transactions.length === 0 && isLoaded)
       setTransactions(generateSeedTransactions());
-    }
   }, [transactions.length, isLoaded, setTransactions]);
 
   const addTransaction = useCallback(
     (data: Omit<Transaction, "id" | "createdAt">) => {
-      const newTx: Transaction = {
+      const newTransaction: Transaction = {
         ...data,
         id: uuid(),
         createdAt: new Date().toISOString(),
       };
-      setTransactions((prev) => [newTx, ...prev]);
+
+      setTransactions((prev) => [newTransaction, ...prev]);
     },
     [setTransactions]
   );
@@ -34,7 +34,9 @@ export function useTransactions() {
   const updateTransaction = useCallback(
     (id: string, data: Partial<Omit<Transaction, "id" | "createdAt">>) => {
       setTransactions((prev) =>
-        prev.map((t) => (t.id === id ? { ...t, ...data } : t))
+        prev.map((transaction) =>
+          transaction.id === id ? { ...transaction, ...data } : transaction
+        )
       );
     },
     [setTransactions]
@@ -42,7 +44,9 @@ export function useTransactions() {
 
   const deleteTransaction = useCallback(
     (id: string) => {
-      setTransactions((prev) => prev.filter((t) => t.id !== id));
+      setTransactions((prev) =>
+        prev.filter((transaction) => transaction.id !== id)
+      );
     },
     [setTransactions]
   );
@@ -53,29 +57,34 @@ export function useTransactions() {
       categoryId?: string;
       month?: string;
       search?: string;
-    }) => {
-      return transactions.filter((t) => {
-        if (filters.type && t.type !== filters.type) return false;
-        if (filters.categoryId && t.categoryId !== filters.categoryId) return false;
-        if (filters.month && getMonthKey(t.date) !== filters.month) return false;
+    }) =>
+      transactions.filter((transaction) => {
+        if (filters.type && transaction.type !== filters.type) return false;
+        if (filters.categoryId && transaction.categoryId !== filters.categoryId)
+          return false;
+        if (filters.month && getMonthKey(transaction.date) !== filters.month)
+          return false;
         if (
           filters.search &&
-          !t.description.toLowerCase().includes(filters.search.toLowerCase())
+          !transaction.description
+            .toLowerCase()
+            .includes(filters.search.toLowerCase())
         )
           return false;
+
         return true;
-      });
-    },
+      }),
     [transactions]
   );
 
   const stats = useMemo(() => {
     const totalIncome = transactions
-      .filter((t) => t.type === "income")
-      .reduce((sum, t) => sum + t.amount, 0);
+      .filter((transaction) => transaction.type === "income")
+      .reduce((sum, transaction) => sum + transaction.amount, 0);
     const totalExpense = transactions
-      .filter((t) => t.type === "expense")
-      .reduce((sum, t) => sum + t.amount, 0);
+      .filter((transaction) => transaction.type === "expense")
+      .reduce((sum, transaction) => sum + transaction.amount, 0);
+
     return {
       totalIncome,
       totalExpense,
@@ -86,15 +95,20 @@ export function useTransactions() {
 
   const monthlyData = useMemo(() => {
     const map = new Map<string, { income: number; expense: number }>();
-    transactions.forEach((t) => {
-      const key = getMonthKey(t.date);
+
+    transactions.forEach((transaction) => {
+      const key = getMonthKey(transaction.date);
       const entry = map.get(key) ?? { income: 0, expense: 0 };
-      if (t.type === "income") entry.income += t.amount;
-      else entry.expense += t.amount;
+
+      if (transaction.type === "income") entry.income += transaction.amount;
+      else entry.expense += transaction.amount;
       map.set(key, entry);
     });
+
     return Array.from(map.entries())
-      .sort(([a], [b]) => a.localeCompare(b))
+      .sort(([firstMonth], [secondMonth]) =>
+        firstMonth.localeCompare(secondMonth)
+      )
       .map(([month, data]) => ({
         month,
         ...data,
@@ -113,4 +127,6 @@ export function useTransactions() {
     getFiltered,
     initSeedData,
   };
-}
+};
+
+export { useTransactions };

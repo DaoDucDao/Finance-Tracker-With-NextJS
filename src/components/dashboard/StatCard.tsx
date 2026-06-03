@@ -26,20 +26,20 @@ export default function StatCard({
   subtitle,
   format = "currency",
 }: StatCardProps) {
-  const c = colorMap[color];
+  const palette = colorMap[color];
   const display = format === "percent" ? `${amount}%` : formatCurrency(amount);
 
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-border hover:shadow-lg">
       {/* colored accent strip */}
       <span
-        className={`absolute inset-x-0 top-0 h-1 ${c.accent} opacity-80`}
+        className={`absolute inset-x-0 top-0 h-1 ${palette.accent} opacity-80`}
       />
 
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium text-muted-foreground">{title}</span>
         <span
-          className={`flex h-10 w-10 items-center justify-center rounded-xl text-xl ${c.icon}`}
+          className={`flex h-10 w-10 items-center justify-center rounded-xl text-xl ${palette.icon}`}
         >
           {icon}
         </span>

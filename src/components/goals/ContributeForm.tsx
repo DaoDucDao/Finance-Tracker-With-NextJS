@@ -25,14 +25,17 @@ export default function ContributeForm({
 
   const remaining = Math.max(0, goal.targetAmount - goal.currentAmount);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const num = parseFloat(amount);
-    if (!amount || isNaN(num) || num <= 0) {
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const parsedAmount = parseFloat(amount);
+
+    if (!amount || isNaN(parsedAmount) || parsedAmount <= 0) {
       setError("Enter an amount above 0");
       return;
     }
-    onSubmit(num);
+
+    onSubmit(parsedAmount);
   };
 
   return (
@@ -53,8 +56,8 @@ export default function ContributeForm({
           min="0"
           autoFocus
           value={amount}
-          onChange={(e) => {
-            setAmount(e.target.value);
+          onChange={(event) => {
+            setAmount(event.target.value);
             setError("");
           }}
           placeholder="0.00"
@@ -63,14 +66,14 @@ export default function ContributeForm({
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {QUICK_AMOUNTS.map((q) => (
+        {QUICK_AMOUNTS.map((quickAmount) => (
           <Button
-            key={q}
+            key={quickAmount}
             variant="secondary"
             size="sm"
-            onClick={() => setAmount(q.toString())}
+            onClick={() => setAmount(quickAmount.toString())}
           >
-            +{formatCurrency(q)}
+            +{formatCurrency(quickAmount)}
           </Button>
         ))}
         {remaining > 0 && (

@@ -6,16 +6,14 @@ import type { SavingsGoal } from "@/types";
 import { useLocalStorage } from "./useLocalStorage";
 import { generateSeedGoals } from "@/utils/seed";
 
-export function useGoals() {
+const useGoals = () => {
   const [goals, setGoals, isLoaded] = useLocalStorage<SavingsGoal[]>(
     "finance-goals",
     []
   );
 
   const initSeedData = useCallback(() => {
-    if (isLoaded && goals.length === 0) {
-      setGoals(generateSeedGoals());
-    }
+    if (isLoaded && goals.length === 0) setGoals(generateSeedGoals());
   }, [isLoaded, goals.length, setGoals]);
 
   const addGoal = useCallback(
@@ -25,6 +23,7 @@ export function useGoals() {
         id: uuid(),
         createdAt: new Date().toISOString(),
       };
+
       setGoals((prev) => [...prev, newGoal]);
     },
     [setGoals]
@@ -32,14 +31,16 @@ export function useGoals() {
 
   const updateGoal = useCallback(
     (id: string, data: Partial<Omit<SavingsGoal, "id" | "createdAt">>) => {
-      setGoals((prev) => prev.map((g) => (g.id === id ? { ...g, ...data } : g)));
+      setGoals((prev) =>
+        prev.map((goal) => (goal.id === id ? { ...goal, ...data } : goal))
+      );
     },
     [setGoals]
   );
 
   const deleteGoal = useCallback(
     (id: string) => {
-      setGoals((prev) => prev.filter((g) => g.id !== id));
+      setGoals((prev) => prev.filter((goal) => goal.id !== id));
     },
     [setGoals]
   );
@@ -47,10 +48,10 @@ export function useGoals() {
   const contribute = useCallback(
     (id: string, amount: number) => {
       setGoals((prev) =>
-        prev.map((g) =>
-          g.id === id
-            ? { ...g, currentAmount: Math.max(0, g.currentAmount + amount) }
-            : g
+        prev.map((goal) =>
+          goal.id === id
+            ? { ...goal, currentAmount: Math.max(0, goal.currentAmount + amount) }
+            : goal
         )
       );
     },
@@ -66,4 +67,6 @@ export function useGoals() {
     contribute,
     initSeedData,
   };
-}
+};
+
+export { useGoals };

@@ -21,23 +21,34 @@ export default function BudgetSnapshot({
 
   const rows = useMemo(() => {
     const spent = new Map<string, number>();
-    transactions.forEach((t) => {
-      if (t.type !== "expense" || getMonthKey(t.date) !== currentMonth) return;
-      spent.set(t.categoryId, (spent.get(t.categoryId) ?? 0) + t.amount);
+
+    transactions.forEach((transaction) => {
+      if (
+        transaction.type !== "expense" ||
+        getMonthKey(transaction.date) !== currentMonth
+      )
+        return;
+
+      spent.set(
+        transaction.categoryId,
+        (spent.get(transaction.categoryId) ?? 0) + transaction.amount
+      );
     });
+
     return budgets
-      .map((b) => {
-        const used = spent.get(b.categoryId) ?? 0;
-        const pct = b.amount > 0 ? (used / b.amount) * 100 : 0;
+      .map((budget) => {
+        const used = spent.get(budget.categoryId) ?? 0;
+        const percent = budget.amount > 0 ? (used / budget.amount) * 100 : 0;
+
         return {
-          id: b.id,
-          category: categories.find((c) => c.id === b.categoryId),
+          id: budget.id,
+          category: categories.find((category) => category.id === budget.categoryId),
           used,
-          amount: b.amount,
-          pct,
+          amount: budget.amount,
+          percent,
         };
       })
-      .sort((a, b) => b.pct - a.pct)
+      .sort((first, second) => second.percent - first.percent)
       .slice(0, 4);
   }, [budgets, transactions, categories, currentMonth]);
 
@@ -59,26 +70,27 @@ export default function BudgetSnapshot({
         </p>
       ) : (
         <div className="space-y-4">
-          {rows.map((r) => {
-            const over = r.used > r.amount;
-            const warn = r.pct >= 80 && !over;
+          {rows.map((row) => {
+            const over = row.used > row.amount;
+            const warning = row.percent >= 80 && !over;
+
             return (
-              <div key={r.id}>
+              <div key={row.id}>
                 <div className="mb-1 flex items-center justify-between text-sm">
                   <span className="flex items-center gap-2 text-zinc-300">
-                    <span>{r.category?.icon ?? "📦"}</span>
-                    {r.category?.name ?? "Unknown"}
+                    <span>{row.category?.icon ?? "📦"}</span>
+                    {row.category?.name ?? "Unknown"}
                   </span>
                   <span
                     className={
                       over
                         ? "text-red-400"
-                        : warn
+                        : warning
                         ? "text-amber-400"
                         : "text-zinc-500"
                     }
                   >
-                    {formatCurrency(r.used)} / {formatCurrency(r.amount)}
+                    {formatCurrency(row.used)} / {formatCurrency(row.amount)}
                   </span>
                 </div>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-800">
@@ -86,11 +98,11 @@ export default function BudgetSnapshot({
                     className={`h-full rounded-full bg-gradient-to-r transition-all duration-700 ${
                       over
                         ? "from-red-500 to-rose-600"
-                        : warn
+                        : warning
                         ? "from-amber-400 to-orange-500"
                         : "from-emerald-400 to-emerald-600"
                     }`}
-                    style={{ width: `${Math.min(r.pct, 100)}%` }}
+                    style={{ width: `${Math.min(row.percent, 100)}%` }}
                   />
                 </div>
               </div>

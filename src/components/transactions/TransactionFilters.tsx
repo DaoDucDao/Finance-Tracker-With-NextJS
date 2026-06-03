@@ -30,21 +30,25 @@ export default function TransactionFilters({
   categories,
   months,
 }: TransactionFiltersProps) {
-  const filteredCategories = type ? categories.filter((c) => c.type === type) : categories;
+  const filteredCategories = type
+    ? categories.filter((category) => category.type === type)
+    : categories;
 
   return (
     <div className="flex flex-wrap gap-3">
       <Input
         type="text"
         value={search}
-        onChange={(e) => onSearchChange(e.target.value)}
+        onChange={(event) => onSearchChange(event.target.value)}
         placeholder="Search descriptions..."
         className="min-w-[200px] flex-1"
       />
 
       <Select
         value={type}
-        onChange={(e) => onTypeChange(e.target.value as TransactionType | "")}
+        onChange={(event) =>
+          onTypeChange(event.target.value as TransactionType | "")
+        }
         className="w-auto"
       >
         <option value="">All types</option>
@@ -54,26 +58,26 @@ export default function TransactionFilters({
 
       <Select
         value={categoryId}
-        onChange={(e) => onCategoryChange(e.target.value)}
+        onChange={(event) => onCategoryChange(event.target.value)}
         className="w-auto"
       >
         <option value="">All categories</option>
-        {filteredCategories.map((c) => (
-          <option key={c.id} value={c.id}>
-            {c.icon} {c.name}
+        {filteredCategories.map((category) => (
+          <option key={category.id} value={category.id}>
+            {category.icon} {category.name}
           </option>
         ))}
       </Select>
 
       <Select
         value={month}
-        onChange={(e) => onMonthChange(e.target.value)}
+        onChange={(event) => onMonthChange(event.target.value)}
         className="w-auto"
       >
         <option value="">All months</option>
-        {months.map((m) => (
-          <option key={m} value={m}>
-            {m}
+        {months.map((monthKey) => (
+          <option key={monthKey} value={monthKey}>
+            {monthKey}
           </option>
         ))}
       </Select>

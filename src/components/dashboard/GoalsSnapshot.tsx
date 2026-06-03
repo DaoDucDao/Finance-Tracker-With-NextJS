@@ -11,14 +11,14 @@ interface GoalsSnapshotProps {
 
 export default function GoalsSnapshot({ goals }: GoalsSnapshotProps) {
   const top = [...goals]
-    .map((g) => ({
-      ...g,
-      pct:
-        g.targetAmount > 0
-          ? Math.min((g.currentAmount / g.targetAmount) * 100, 100)
+    .map((goal) => ({
+      ...goal,
+      percent:
+        goal.targetAmount > 0
+          ? Math.min((goal.currentAmount / goal.targetAmount) * 100, 100)
           : 0,
     }))
-    .sort((a, b) => b.pct - a.pct)
+    .sort((first, second) => second.percent - first.percent)
     .slice(0, 4);
 
   return (
@@ -37,23 +37,24 @@ export default function GoalsSnapshot({ goals }: GoalsSnapshotProps) {
         <p className="py-8 text-center text-sm text-zinc-500">No goals yet.</p>
       ) : (
         <div className="space-y-4">
-          {top.map((g) => (
-            <div key={g.id}>
+          {top.map((goal) => (
+            <div key={goal.id}>
               <div className="mb-1 flex items-center justify-between text-sm">
                 <span className="flex items-center gap-2 text-zinc-300">
-                  <span>{g.icon}</span>
-                  {g.name}
+                  <span>{goal.icon}</span>
+                  {goal.name}
                 </span>
                 <span className="text-zinc-500">
-                  {formatCurrency(g.currentAmount)} / {formatCurrency(g.targetAmount)}
+                  {formatCurrency(goal.currentAmount)} /{" "}
+                  {formatCurrency(goal.targetAmount)}
                 </span>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-800">
                 <div
                   className="h-full rounded-full transition-all duration-700"
                   style={{
-                    width: `${g.pct}%`,
-                    backgroundColor: g.color,
+                    width: `${goal.percent}%`,
+                    backgroundColor: goal.color,
                   }}
                 />
               </div>

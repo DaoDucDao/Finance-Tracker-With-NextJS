@@ -19,9 +19,9 @@ interface OverviewChartProps {
 }
 
 export default function OverviewChart({ data }: OverviewChartProps) {
-  const chartData = data.slice(-6).map((d) => ({
-    ...d,
-    name: getMonthLabel(d.month),
+  const chartData = data.slice(-6).map((entry) => ({
+    ...entry,
+    name: getMonthLabel(entry.month),
   }));
 
   if (chartData.length === 0) {

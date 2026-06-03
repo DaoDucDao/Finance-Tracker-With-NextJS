@@ -11,24 +11,31 @@ interface CategoryChartProps {
 }
 
 export default function CategoryChart({ transactions, categories, type }: CategoryChartProps) {
-  const filtered = transactions.filter((t) => t.type === type);
-  const categoryMap = new Map(categories.map((c) => [c.id, c]));
+  const filtered = transactions.filter((transaction) => transaction.type === type);
+  const categoryMap = new Map(
+    categories.map((category) => [category.id, category])
+  );
 
   const grouped = new Map<string, number>();
-  filtered.forEach((t) => {
-    grouped.set(t.categoryId, (grouped.get(t.categoryId) ?? 0) + t.amount);
+
+  filtered.forEach((transaction) => {
+    grouped.set(
+      transaction.categoryId,
+      (grouped.get(transaction.categoryId) ?? 0) + transaction.amount
+    );
   });
 
   const data = Array.from(grouped.entries())
-    .map(([id, value]) => {
-      const cat = categoryMap.get(id);
+    .map(([categoryId, value]) => {
+      const category = categoryMap.get(categoryId);
+
       return {
-        name: cat ? `${cat.icon} ${cat.name}` : "Unknown",
+        name: category ? `${category.icon} ${category.name}` : "Unknown",
         value,
-        color: cat?.color ?? "#64748b",
+        color: category?.color ?? "#64748b",
       };
     })
-    .sort((a, b) => b.value - a.value);
+    .sort((first, second) => second.value - first.value);
 
   const title = type === "income" ? "Income by Category" : "Expenses by Category";
 
@@ -58,8 +65,8 @@ export default function CategoryChart({ transactions, categories, type }: Catego
             stroke="var(--card)"
             strokeWidth={3}
           >
-            {data.map((entry, i) => (
-              <Cell key={i} fill={entry.color} />
+            {data.map((entry) => (
+              <Cell key={entry.name} fill={entry.color} />
             ))}
           </Pie>
           <Tooltip

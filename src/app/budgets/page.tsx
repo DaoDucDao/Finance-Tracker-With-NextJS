@@ -39,25 +39,32 @@ export default function BudgetsPage() {
 
   const spentByCategory = useMemo(() => {
     const map = new Map<string, number>();
-    transactions.forEach((t) => {
-      if (t.type !== "expense") return;
-      if (getMonthKey(t.date) !== currentMonth) return;
-      map.set(t.categoryId, (map.get(t.categoryId) ?? 0) + t.amount);
+
+    transactions.forEach((transaction) => {
+      if (transaction.type !== "expense") return;
+      if (getMonthKey(transaction.date) !== currentMonth) return;
+
+      map.set(
+        transaction.categoryId,
+        (map.get(transaction.categoryId) ?? 0) + transaction.amount
+      );
     });
+
     return map;
   }, [transactions, currentMonth]);
 
   const totals = useMemo(() => {
-    const limit = budgets.reduce((s, b) => s + b.amount, 0);
+    const limit = budgets.reduce((sum, budget) => sum + budget.amount, 0);
     const spent = budgets.reduce(
-      (s, b) => s + (spentByCategory.get(b.categoryId) ?? 0),
+      (sum, budget) => sum + (spentByCategory.get(budget.categoryId) ?? 0),
       0
     );
+
     return { limit, spent, remaining: limit - spent };
   }, [budgets, spentByCategory]);
 
-  const totalPct = totals.limit > 0 ? (totals.spent / totals.limit) * 100 : 0;
-  const usedCategoryIds = budgets.map((b) => b.categoryId);
+  const totalPercent = totals.limit > 0 ? (totals.spent / totals.limit) * 100 : 0;
+  const usedCategoryIds = budgets.map((budget) => budget.categoryId);
 
   if (!txLoaded || !budgetsLoaded) {
     return (
@@ -115,13 +122,13 @@ export default function BudgetsPage() {
         <div className="relative mt-4 h-3 w-full overflow-hidden rounded-full bg-secondary">
           <div
             className={`h-full rounded-full bg-gradient-to-r transition-all duration-700 ${
-              totalPct > 100
+              totalPercent > 100
                 ? "from-red-500 to-rose-600"
-                : totalPct >= 80
+                : totalPercent >= 80
                 ? "from-amber-400 to-orange-500"
                 : "from-emerald-400 to-emerald-600"
             }`}
-            style={{ width: `${Math.min(totalPct, 100)}%` }}
+            style={{ width: `${Math.min(totalPercent, 100)}%` }}
           />
         </div>
       </div>
@@ -136,14 +143,16 @@ export default function BudgetsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {budgets.map((b) => (
+          {budgets.map((budget) => (
             <BudgetCard
-              key={b.id}
-              budget={b}
-              category={categories.find((c) => c.id === b.categoryId)}
-              spent={spentByCategory.get(b.categoryId) ?? 0}
-              onEdit={(budget) => {
-                setEditing(budget);
+              key={budget.id}
+              budget={budget}
+              category={categories.find(
+                (category) => category.id === budget.categoryId
+              )}
+              spent={spentByCategory.get(budget.categoryId) ?? 0}
+              onEdit={(selected) => {
+                setEditing(selected);
                 setShowForm(true);
               }}
               onDelete={(id) => setDeleteId(id)}
