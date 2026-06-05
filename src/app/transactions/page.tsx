@@ -8,7 +8,7 @@ import TransactionFilters from "@/components/transactions/TransactionFilters";
 import TransactionForm from "@/components/transactions/TransactionForm";
 import Modal from "@/components/ui/Modal";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 import { exportToCSV } from "@/utils/csv";
 import { getMonthKey } from "@/utils/format";
 import type { Transaction, TransactionType } from "@/types";

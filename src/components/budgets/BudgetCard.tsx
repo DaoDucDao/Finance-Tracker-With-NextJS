@@ -2,7 +2,7 @@
 
 import type { Budget, Category } from "@/types";
 import { formatCurrency } from "@/utils/format";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 
 interface BudgetCardProps {
   budget: Budget;

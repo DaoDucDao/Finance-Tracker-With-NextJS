@@ -1,9 +1,9 @@
 "use client";
 
 import type { TransactionType, Category } from "@/types";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import Button from "@/components/ui/button";
+import Input from "@/components/ui/input";
+import Select from "@/components/ui/select";
 
 interface TransactionFiltersProps {
   search: string;

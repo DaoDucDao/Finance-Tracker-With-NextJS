@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 import type { Budget, Category, Transaction } from "@/types";
 import { formatCurrency, getMonthKey } from "@/utils/format";
-import { Card } from "@/components/ui/card";
+import Card from "@/components/ui/card";
 
 interface BudgetSnapshotProps {
   transactions: Transaction[];

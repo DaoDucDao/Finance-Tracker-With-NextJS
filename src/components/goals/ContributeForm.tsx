@@ -3,9 +3,9 @@
 import { useState } from "react";
 import type { SavingsGoal } from "@/types";
 import { formatCurrency } from "@/utils/format";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import Button from "@/components/ui/button";
+import Input from "@/components/ui/input";
+import Label from "@/components/ui/label";
 
 interface ContributeFormProps {
   goal: SavingsGoal;

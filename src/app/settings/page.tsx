@@ -7,8 +7,8 @@ import { useBudgets } from "@/hooks/useBudgets";
 import { useGoals } from "@/hooks/useGoals";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import Button from "@/components/ui/button";
+import Card from "@/components/ui/card";
 import { buildBackup, downloadBackup, parseBackup } from "@/utils/backup";
 
 const STORAGE_KEYS = {

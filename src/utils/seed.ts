@@ -1,3 +1,4 @@
+import { addDays, format, subDays } from "date-fns";
 import { v4 as uuid } from "uuid";
 import type { Budget, Category, SavingsGoal, Transaction } from "@/types";
 
@@ -17,12 +18,8 @@ const DEFAULT_CATEGORIES: Category[] = [
   { id: "cat-other-ex", name: "Other", type: "expense", color: "#64748b", icon: "📤" },
 ];
 
-const randomDate = (daysBack: number): string => {
-  const date = new Date();
-  date.setDate(date.getDate() - Math.floor(Math.random() * daysBack));
-
-  return date.toISOString().split("T")[0];
-};
+const randomDate = (daysBack: number): string =>
+  format(subDays(new Date(), Math.floor(Math.random() * daysBack)), "yyyy-MM-dd");
 
 const generateSeedTransactions = (): Transaction[] => {
   const now = new Date().toISOString();
@@ -73,12 +70,8 @@ const generateSeedBudgets = (): Budget[] => {
 const generateSeedGoals = (): SavingsGoal[] => {
   const now = new Date().toISOString();
 
-  const future = (days: number) => {
-    const date = new Date();
-    date.setDate(date.getDate() + days);
-
-    return date.toISOString().split("T")[0];
-  };
+  const future = (days: number) =>
+    format(addDays(new Date(), days), "yyyy-MM-dd");
 
   const data: Omit<SavingsGoal, "id" | "createdAt">[] = [
     { name: "Emergency Fund", targetAmount: 10000, currentAmount: 6500, color: "#22c55e", icon: "🛟", deadline: future(180) },

@@ -8,7 +8,7 @@ import BudgetCard from "@/components/budgets/BudgetCard";
 import BudgetForm from "@/components/budgets/BudgetForm";
 import Modal from "@/components/ui/Modal";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 import { formatCurrency, getMonthKey, getMonthLabel } from "@/utils/format";
 import type { Budget } from "@/types";
 

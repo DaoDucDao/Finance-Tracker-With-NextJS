@@ -6,7 +6,7 @@ import CategoryList from "@/components/categories/CategoryList";
 import CategoryForm from "@/components/categories/CategoryForm";
 import Modal from "@/components/ui/Modal";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 import type { Category } from "@/types";
 
 export default function CategoriesPage() {

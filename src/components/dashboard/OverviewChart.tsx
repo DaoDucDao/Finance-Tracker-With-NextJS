@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import type { MonthlyStats } from "@/types";
 import { getMonthLabel } from "@/utils/format";
-import { Card } from "@/components/ui/card";
+import Card from "@/components/ui/card";
 
 interface OverviewChartProps {
   data: MonthlyStats[];

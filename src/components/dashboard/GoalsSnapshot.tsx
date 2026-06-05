@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { SavingsGoal } from "@/types";
 import { formatCurrency } from "@/utils/format";
-import { Card } from "@/components/ui/card";
+import Card from "@/components/ui/card";
 
 interface GoalsSnapshotProps {
   goals: SavingsGoal[];

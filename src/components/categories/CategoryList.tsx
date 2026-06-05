@@ -1,8 +1,8 @@
 "use client";
 
 import type { Category } from "@/types";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import Button from "@/components/ui/button";
+import Card from "@/components/ui/card";
 
 interface CategoryListProps {
   categories: Category[];

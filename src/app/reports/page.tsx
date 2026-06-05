@@ -5,7 +5,7 @@ import { useCategories } from "@/hooks/useCategories";
 import MonthlyReport from "@/components/reports/MonthlyReport";
 import CategoryChart from "@/components/dashboard/CategoryChart";
 import StatCard from "@/components/dashboard/StatCard";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 import { exportToCSV } from "@/utils/csv";
 
 export default function ReportsPage() {

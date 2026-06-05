@@ -3,7 +3,7 @@
 import type { Transaction, Category } from "@/types";
 import { formatCurrency, formatDate } from "@/utils/format";
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
+import Card from "@/components/ui/card";
 
 interface RecentTransactionsProps {
   transactions: Transaction[];

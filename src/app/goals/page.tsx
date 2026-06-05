@@ -8,7 +8,7 @@ import ContributeForm from "@/components/goals/ContributeForm";
 import Modal from "@/components/ui/Modal";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import Confetti from "@/components/ui/Confetti";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 import { formatCurrency } from "@/utils/format";
 import type { SavingsGoal } from "@/types";
 

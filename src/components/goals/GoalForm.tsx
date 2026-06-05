@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import type { SavingsGoal } from "@/types";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import Button from "@/components/ui/button";
+import Input from "@/components/ui/input";
+import Label from "@/components/ui/label";
+import IconPicker from "@/components/ui/IconPicker";
+import ColorPicker from "@/components/ui/ColorPicker";
 
 interface GoalFormProps {
   initialData?: SavingsGoal;
@@ -122,41 +124,12 @@ export default function GoalForm({ initialData, onSubmit, onCancel }: GoalFormPr
 
       <div>
         <Label>Icon</Label>
-        <div className="flex flex-wrap gap-2">
-          {PRESET_ICONS.map((iconOption) => (
-            <button
-              key={iconOption}
-              type="button"
-              onClick={() => setIcon(iconOption)}
-              className={`w-10 h-10 rounded-xl text-lg flex items-center justify-center transition-all ${
-                icon === iconOption
-                  ? "bg-zinc-600 ring-2 ring-emerald-500"
-                  : "bg-zinc-800 hover:bg-zinc-700"
-              }`}
-            >
-              {iconOption}
-            </button>
-          ))}
-        </div>
+        <IconPicker icons={PRESET_ICONS} selected={icon} onSelect={setIcon} />
       </div>
 
       <div>
         <Label>Color</Label>
-        <div className="flex flex-wrap gap-2">
-          {PRESET_COLORS.map((colorOption) => (
-            <button
-              key={colorOption}
-              type="button"
-              onClick={() => setColor(colorOption)}
-              className={`w-8 h-8 rounded-full transition-all ${
-                color === colorOption
-                  ? "ring-2 ring-white ring-offset-2 ring-offset-zinc-900 scale-110"
-                  : ""
-              }`}
-              style={{ backgroundColor: colorOption }}
-            />
-          ))}
-        </div>
+        <ColorPicker colors={PRESET_COLORS} selected={color} onSelect={setColor} />
       </div>
 
       <div className="flex justify-end gap-3 pt-2">

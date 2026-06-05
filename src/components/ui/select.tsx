@@ -19,4 +19,4 @@ const Select = React.forwardRef<
 });
 Select.displayName = "Select";
 
-export { Select };
+export default Select;

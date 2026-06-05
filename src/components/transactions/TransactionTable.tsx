@@ -2,8 +2,8 @@
 
 import type { Transaction, Category } from "@/types";
 import { formatCurrency, formatDate } from "@/utils/format";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import Button from "@/components/ui/button";
+import Card from "@/components/ui/card";
 
 interface TransactionTableProps {
   transactions: Transaction[];

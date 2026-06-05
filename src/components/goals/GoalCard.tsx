@@ -2,7 +2,7 @@
 
 import type { SavingsGoal } from "@/types";
 import { daysUntil, formatCurrency, formatDate } from "@/utils/format";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 
 interface GoalCardProps {
   goal: SavingsGoal;

@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import type { MonthlyStats } from "@/types";
 import { formatCurrency, getMonthLabel } from "@/utils/format";
-import { Card } from "@/components/ui/card";
+import Card from "@/components/ui/card";
 
 interface MonthlyReportProps {
   data: MonthlyStats[];
